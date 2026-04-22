@@ -13,6 +13,7 @@ import {
   Search,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logiconLogo from "@/assets/logicon-logo.png";
 import {
   Tooltip,
   TooltipContent,
@@ -122,9 +123,11 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
         {/* Logo / Header */}
         <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-sidebar-border px-4">
           <Link to="/" className="flex items-center gap-2 overflow-hidden">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold">
-              L
-            </div>
+            <img
+              src={logiconLogo}
+              alt="Logicon"
+              className="h-8 w-8 shrink-0 rounded-md object-contain"
+            />
             {!collapsed && (
               <span className="truncate text-[15px] font-semibold tracking-tight text-foreground">
                 Logicon
