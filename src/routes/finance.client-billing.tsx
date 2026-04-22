@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppLayout } from "@/components/AppLayout";
 import {
@@ -11,6 +12,8 @@ import {
   CheckCircle2,
   Clock,
   AlertCircle,
+  X,
+  Trash2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/finance/client-billing")({
@@ -133,6 +136,7 @@ function StatusPill({ status }: { status: string }) {
 }
 
 function ClientBillingPage() {
+  const [drawer, setDrawer] = useState(false);
   return (
     <AppLayout>
       <div className="px-8 py-7">
@@ -166,7 +170,10 @@ function ClientBillingPage() {
               <Download size={14} />
               Export
             </button>
-            <button className="inline-flex h-9 items-center gap-1.5 rounded-md bg-primary px-3 text-[13px] font-medium text-primary-foreground hover:opacity-95">
+            <button
+              onClick={() => setDrawer(true)}
+              className="inline-flex h-9 items-center gap-1.5 rounded-md bg-primary px-3 text-[13px] font-medium text-primary-foreground hover:opacity-95"
+            >
               <Plus size={14} />
               New Invoice
             </button>
@@ -283,6 +290,171 @@ function ClientBillingPage() {
           </div>
         </div>
       </div>
+
+      {drawer && <CreateInvoiceDrawer onClose={() => setDrawer(false)} />}
     </AppLayout>
+  );
+}
+
+/* -------------------- Create Invoice Drawer -------------------- */
+
+interface LineItem {
+  service: string;
+  qty: number;
+  rate: number;
+}
+
+function CreateInvoiceDrawer({ onClose }: { onClose: () => void }) {
+  const [items, setItems] = useState<LineItem[]>([
+    { service: "Monthly retainer", qty: 1, rate: 5000 },
+    { service: "Implementation hours", qty: 10, rate: 120 },
+  ]);
+  const [taxRate, setTaxRate] = useState(18);
+  const [discount, setDiscount] = useState(0);
+
+  const subtotal = useMemo(
+    () => items.reduce((s, i) => s + (Number(i.qty) || 0) * (Number(i.rate) || 0), 0),
+    [items],
+  );
+  const taxAmount = (subtotal - discount) * (taxRate / 100);
+  const total = subtotal - discount + taxAmount;
+  const fmt = (n: number) =>
+    "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  const updateItem = (i: number, patch: Partial<LineItem>) =>
+    setItems((arr) => arr.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+
+  return (
+    <div className="fixed inset-0 z-50 flex">
+      <button aria-label="Close" onClick={onClose} className="flex-1 bg-black/40 backdrop-blur-sm" />
+      <div className="flex h-full w-full max-w-[720px] flex-col bg-background shadow-2xl">
+        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+          <div>
+            <h2 className="text-base font-semibold text-foreground">Create Invoice</h2>
+            <p className="text-xs text-muted-foreground">Generate a new invoice for a client</p>
+          </div>
+          <button onClick={onClose} className="rounded-md p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground">
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="flex-1 space-y-6 overflow-y-auto px-6 py-5">
+          {/* Client */}
+          <section>
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Client Info</h3>
+            <FormGrid>
+              <Field label="Client (from onboarding)">
+                <SelectInput options={["Acme Industries", "Northwind Logistics", "Globex Corp.", "Initech Pvt Ltd", "Umbrella Facilities"]} />
+              </Field>
+              <Field label="Billing Contact"><Input placeholder="finance@client.com" /></Field>
+            </FormGrid>
+          </section>
+
+          {/* Billing details */}
+          <section>
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Billing Details</h3>
+            <FormGrid>
+              <Field label="Invoice Date"><Input type="date" /></Field>
+              <Field label="Billing Period"><Input placeholder="Apr 2026" /></Field>
+            </FormGrid>
+          </section>
+
+          {/* Line items */}
+          <section>
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Line Items</h3>
+              <button
+                onClick={() => setItems((a) => [...a, { service: "", qty: 1, rate: 0 }])}
+                className="inline-flex h-8 items-center gap-1 rounded-md border border-border bg-background px-2 text-xs font-medium text-foreground hover:bg-accent"
+              >
+                <Plus size={13} /> Add Item
+              </button>
+            </div>
+            <div className="overflow-hidden rounded-md border border-border">
+              <table className="w-full text-sm">
+                <thead className="bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
+                  <tr>
+                    <th className="px-3 py-2 text-left font-medium">Service</th>
+                    <th className="px-3 py-2 text-right font-medium w-20">Qty</th>
+                    <th className="px-3 py-2 text-right font-medium w-28">Rate</th>
+                    <th className="px-3 py-2 text-right font-medium w-32">Amount</th>
+                    <th className="w-10" />
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {items.map((it, i) => (
+                    <tr key={i}>
+                      <td className="px-3 py-2"><Input value={it.service} onChange={(e) => updateItem(i, { service: e.target.value })} placeholder="Service" /></td>
+                      <td className="px-3 py-2"><Input type="number" value={it.qty} onChange={(e) => updateItem(i, { qty: Number(e.target.value) })} className="text-right" /></td>
+                      <td className="px-3 py-2"><Input type="number" value={it.rate} onChange={(e) => updateItem(i, { rate: Number(e.target.value) })} className="text-right" /></td>
+                      <td className="px-3 py-2 text-right text-sm font-medium text-foreground">{fmt((it.qty || 0) * (it.rate || 0))}</td>
+                      <td className="px-3 py-2 text-right">
+                        <button onClick={() => setItems((arr) => arr.filter((_, idx) => idx !== i))} className="inline-flex h-8 w-8 items-center justify-center rounded-md text-rose-600 hover:bg-rose-50" title="Remove">
+                          <Trash2 size={15} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Totals */}
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <FormGrid>
+                <Field label="Discount"><Input type="number" value={discount} onChange={(e) => setDiscount(Number(e.target.value))} /></Field>
+                <Field label="Tax %"><Input type="number" value={taxRate} onChange={(e) => setTaxRate(Number(e.target.value))} /></Field>
+              </FormGrid>
+              <div className="rounded-md border border-border bg-muted/30 p-4 text-sm">
+                <Row label="Subtotal" value={fmt(subtotal)} />
+                <Row label="Discount" value={"- " + fmt(discount)} />
+                <Row label={`Tax (${taxRate}%)`} value={fmt(taxAmount)} />
+                <div className="my-2 border-t border-border" />
+                <Row label="Total" value={fmt(total)} bold />
+              </div>
+            </div>
+          </section>
+
+          {/* Payment */}
+          <section>
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Payment</h3>
+            <FormGrid>
+              <Field label="Payment Terms"><SelectInput options={["Net 15", "Net 30", "Net 45"]} /></Field>
+              <Field label="Due Date"><Input type="date" /></Field>
+            </FormGrid>
+          </section>
+        </div>
+
+        <div className="flex items-center justify-end gap-2 border-t border-border bg-muted/30 px-6 py-3">
+          <button onClick={onClose} className="h-9 rounded-md border border-border bg-background px-3 text-sm font-medium text-foreground hover:bg-accent">Save as Draft</button>
+          <button onClick={onClose} className="h-9 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground hover:opacity-95">Create Invoice</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
+  return (
+    <div className={`flex items-center justify-between py-1 ${bold ? "text-foreground font-semibold text-base" : "text-muted-foreground"}`}>
+      <span>{label}</span>
+      <span className={bold ? "text-foreground" : "text-foreground"}>{value}</span>
+    </div>
+  );
+}
+function FormGrid({ children }: { children: React.ReactNode }) { return <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{children}</div>; }
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return <div><label className="mb-1.5 block text-xs font-medium text-foreground">{label}</label>{children}</div>;
+}
+function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
+  const { className = "", ...rest } = props;
+  return <input {...rest} className={`h-9 w-full rounded-md border border-border bg-background px-3 text-[13px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15 ${className}`} />;
+}
+function SelectInput({ options }: { options: string[] }) {
+  return (
+    <select className="h-9 w-full rounded-md border border-border bg-background px-2 text-[13px] text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15">
+      <option value="">Select…</option>
+      {options.map((o) => <option key={o} value={o}>{o}</option>)}
+    </select>
   );
 }
