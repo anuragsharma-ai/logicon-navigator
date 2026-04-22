@@ -216,23 +216,6 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
             collapsed={collapsed}
           />
 
-          {/* Favorites */}
-          {!collapsed && (
-            <SectionLabel className="mt-5">Favorites</SectionLabel>
-          )}
-          <div className="mt-1 space-y-0.5">
-            {favorites.map((f) => (
-              <NavLeaf
-                key={f.label}
-                icon={Star}
-                label={f.label}
-                to={f.to}
-                active={isActive(f.to)}
-                collapsed={collapsed}
-              />
-            ))}
-          </div>
-
           {/* Workplace */}
           <div className="mt-5">
             <NavGroup
