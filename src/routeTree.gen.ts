@@ -19,6 +19,7 @@ import { Route as SetupAuditLogsRouteImport } from './routes/setup.audit-logs'
 import { Route as SalesTargetVsAchievedRouteImport } from './routes/sales.target-vs-achieved'
 import { Route as SalesLeadRouteImport } from './routes/sales.lead'
 import { Route as SalesClientLossRouteImport } from './routes/sales.client-loss'
+import { Route as HrHrmsRouteImport } from './routes/hr.hrms'
 import { Route as FinanceExpensesRouteImport } from './routes/finance.expenses'
 import { Route as FinanceClientOnboardingRouteImport } from './routes/finance.client-onboarding'
 import { Route as FinanceClientBillingRouteImport } from './routes/finance.client-billing'
@@ -75,6 +76,11 @@ const SalesClientLossRoute = SalesClientLossRouteImport.update({
   path: '/sales/client-loss',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HrHrmsRoute = HrHrmsRouteImport.update({
+  id: '/hr/hrms',
+  path: '/hr/hrms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceExpensesRoute = FinanceExpensesRouteImport.update({
   id: '/finance/expenses',
   path: '/finance/expenses',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/finance/client-billing': typeof FinanceClientBillingRoute
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
+  '/hr/hrms': typeof HrHrmsRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/finance/client-billing': typeof FinanceClientBillingRoute
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
+  '/hr/hrms': typeof HrHrmsRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/finance/client-billing': typeof FinanceClientBillingRoute
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
+  '/hr/hrms': typeof HrHrmsRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/finance/client-billing'
     | '/finance/client-onboarding'
     | '/finance/expenses'
+    | '/hr/hrms'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/finance/client-billing'
     | '/finance/client-onboarding'
     | '/finance/expenses'
+    | '/hr/hrms'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/finance/client-billing'
     | '/finance/client-onboarding'
     | '/finance/expenses'
+    | '/hr/hrms'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -202,6 +214,7 @@ export interface RootRouteChildren {
   FinanceClientBillingRoute: typeof FinanceClientBillingRoute
   FinanceClientOnboardingRoute: typeof FinanceClientOnboardingRoute
   FinanceExpensesRoute: typeof FinanceExpensesRoute
+  HrHrmsRoute: typeof HrHrmsRoute
   SalesClientLossRoute: typeof SalesClientLossRoute
   SalesLeadRoute: typeof SalesLeadRoute
   SalesTargetVsAchievedRoute: typeof SalesTargetVsAchievedRoute
@@ -285,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SalesClientLossRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hr/hrms': {
+      id: '/hr/hrms'
+      path: '/hr/hrms'
+      fullPath: '/hr/hrms'
+      preLoaderRoute: typeof HrHrmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/expenses': {
       id: '/finance/expenses'
       path: '/finance/expenses'
@@ -322,6 +342,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceClientBillingRoute: FinanceClientBillingRoute,
   FinanceClientOnboardingRoute: FinanceClientOnboardingRoute,
   FinanceExpensesRoute: FinanceExpensesRoute,
+  HrHrmsRoute: HrHrmsRoute,
   SalesClientLossRoute: SalesClientLossRoute,
   SalesLeadRoute: SalesLeadRoute,
   SalesTargetVsAchievedRoute: SalesTargetVsAchievedRoute,
