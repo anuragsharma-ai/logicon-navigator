@@ -10,13 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SetupWorkflowsRouteImport } from './routes/setup.workflows'
+import { Route as SetupUsersRolesRouteImport } from './routes/setup.users-roles'
 import { Route as SetupUserRouteImport } from './routes/setup.user'
 import { Route as SetupSiteRouteImport } from './routes/setup.site'
+import { Route as SetupSecurityRouteImport } from './routes/setup.security'
 import { Route as SetupRoleRouteImport } from './routes/setup.role'
 import { Route as SetupReportingStructureRouteImport } from './routes/setup.reporting-structure'
 import { Route as SetupRegionRouteImport } from './routes/setup.region'
 import { Route as SetupPermissionMatrixRouteImport } from './routes/setup.permission-matrix'
+import { Route as SetupOrganizationStructureRouteImport } from './routes/setup.organization-structure'
 import { Route as SetupOrganizationRouteImport } from './routes/setup.organization'
+import { Route as SetupModulesPermissionsRouteImport } from './routes/setup.modules-permissions'
 import { Route as SetupModuleVisibilityRouteImport } from './routes/setup.module-visibility'
 import { Route as SetupModuleRouteImport } from './routes/setup.module'
 import { Route as SetupLoginAuthenticationRouteImport } from './routes/setup.login-authentication'
@@ -33,6 +38,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SetupWorkflowsRoute = SetupWorkflowsRouteImport.update({
+  id: '/setup/workflows',
+  path: '/setup/workflows',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupUsersRolesRoute = SetupUsersRolesRouteImport.update({
+  id: '/setup/users-roles',
+  path: '/setup/users-roles',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SetupUserRoute = SetupUserRouteImport.update({
   id: '/setup/user',
   path: '/setup/user',
@@ -41,6 +56,11 @@ const SetupUserRoute = SetupUserRouteImport.update({
 const SetupSiteRoute = SetupSiteRouteImport.update({
   id: '/setup/site',
   path: '/setup/site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupSecurityRoute = SetupSecurityRouteImport.update({
+  id: '/setup/security',
+  path: '/setup/security',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SetupRoleRoute = SetupRoleRouteImport.update({
@@ -63,9 +83,20 @@ const SetupPermissionMatrixRoute = SetupPermissionMatrixRouteImport.update({
   path: '/setup/permission-matrix',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SetupOrganizationStructureRoute =
+  SetupOrganizationStructureRouteImport.update({
+    id: '/setup/organization-structure',
+    path: '/setup/organization-structure',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const SetupOrganizationRoute = SetupOrganizationRouteImport.update({
   id: '/setup/organization',
   path: '/setup/organization',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModulesPermissionsRoute = SetupModulesPermissionsRouteImport.update({
+  id: '/setup/modules-permissions',
+  path: '/setup/modules-permissions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SetupModuleVisibilityRoute = SetupModuleVisibilityRouteImport.update({
@@ -132,13 +163,18 @@ export interface FileRoutesByFullPath {
   '/setup/login-authentication': typeof SetupLoginAuthenticationRoute
   '/setup/module': typeof SetupModuleRoute
   '/setup/module-visibility': typeof SetupModuleVisibilityRoute
+  '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization': typeof SetupOrganizationRoute
+  '/setup/organization-structure': typeof SetupOrganizationStructureRoute
   '/setup/permission-matrix': typeof SetupPermissionMatrixRoute
   '/setup/region': typeof SetupRegionRoute
   '/setup/reporting-structure': typeof SetupReportingStructureRoute
   '/setup/role': typeof SetupRoleRoute
+  '/setup/security': typeof SetupSecurityRoute
   '/setup/site': typeof SetupSiteRoute
   '/setup/user': typeof SetupUserRoute
+  '/setup/users-roles': typeof SetupUsersRolesRoute
+  '/setup/workflows': typeof SetupWorkflowsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -152,13 +188,18 @@ export interface FileRoutesByTo {
   '/setup/login-authentication': typeof SetupLoginAuthenticationRoute
   '/setup/module': typeof SetupModuleRoute
   '/setup/module-visibility': typeof SetupModuleVisibilityRoute
+  '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization': typeof SetupOrganizationRoute
+  '/setup/organization-structure': typeof SetupOrganizationStructureRoute
   '/setup/permission-matrix': typeof SetupPermissionMatrixRoute
   '/setup/region': typeof SetupRegionRoute
   '/setup/reporting-structure': typeof SetupReportingStructureRoute
   '/setup/role': typeof SetupRoleRoute
+  '/setup/security': typeof SetupSecurityRoute
   '/setup/site': typeof SetupSiteRoute
   '/setup/user': typeof SetupUserRoute
+  '/setup/users-roles': typeof SetupUsersRolesRoute
+  '/setup/workflows': typeof SetupWorkflowsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -173,13 +214,18 @@ export interface FileRoutesById {
   '/setup/login-authentication': typeof SetupLoginAuthenticationRoute
   '/setup/module': typeof SetupModuleRoute
   '/setup/module-visibility': typeof SetupModuleVisibilityRoute
+  '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization': typeof SetupOrganizationRoute
+  '/setup/organization-structure': typeof SetupOrganizationStructureRoute
   '/setup/permission-matrix': typeof SetupPermissionMatrixRoute
   '/setup/region': typeof SetupRegionRoute
   '/setup/reporting-structure': typeof SetupReportingStructureRoute
   '/setup/role': typeof SetupRoleRoute
+  '/setup/security': typeof SetupSecurityRoute
   '/setup/site': typeof SetupSiteRoute
   '/setup/user': typeof SetupUserRoute
+  '/setup/users-roles': typeof SetupUsersRolesRoute
+  '/setup/workflows': typeof SetupWorkflowsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -195,13 +241,18 @@ export interface FileRouteTypes {
     | '/setup/login-authentication'
     | '/setup/module'
     | '/setup/module-visibility'
+    | '/setup/modules-permissions'
     | '/setup/organization'
+    | '/setup/organization-structure'
     | '/setup/permission-matrix'
     | '/setup/region'
     | '/setup/reporting-structure'
     | '/setup/role'
+    | '/setup/security'
     | '/setup/site'
     | '/setup/user'
+    | '/setup/users-roles'
+    | '/setup/workflows'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -215,13 +266,18 @@ export interface FileRouteTypes {
     | '/setup/login-authentication'
     | '/setup/module'
     | '/setup/module-visibility'
+    | '/setup/modules-permissions'
     | '/setup/organization'
+    | '/setup/organization-structure'
     | '/setup/permission-matrix'
     | '/setup/region'
     | '/setup/reporting-structure'
     | '/setup/role'
+    | '/setup/security'
     | '/setup/site'
     | '/setup/user'
+    | '/setup/users-roles'
+    | '/setup/workflows'
   id:
     | '__root__'
     | '/'
@@ -235,13 +291,18 @@ export interface FileRouteTypes {
     | '/setup/login-authentication'
     | '/setup/module'
     | '/setup/module-visibility'
+    | '/setup/modules-permissions'
     | '/setup/organization'
+    | '/setup/organization-structure'
     | '/setup/permission-matrix'
     | '/setup/region'
     | '/setup/reporting-structure'
     | '/setup/role'
+    | '/setup/security'
     | '/setup/site'
     | '/setup/user'
+    | '/setup/users-roles'
+    | '/setup/workflows'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -256,13 +317,18 @@ export interface RootRouteChildren {
   SetupLoginAuthenticationRoute: typeof SetupLoginAuthenticationRoute
   SetupModuleRoute: typeof SetupModuleRoute
   SetupModuleVisibilityRoute: typeof SetupModuleVisibilityRoute
+  SetupModulesPermissionsRoute: typeof SetupModulesPermissionsRoute
   SetupOrganizationRoute: typeof SetupOrganizationRoute
+  SetupOrganizationStructureRoute: typeof SetupOrganizationStructureRoute
   SetupPermissionMatrixRoute: typeof SetupPermissionMatrixRoute
   SetupRegionRoute: typeof SetupRegionRoute
   SetupReportingStructureRoute: typeof SetupReportingStructureRoute
   SetupRoleRoute: typeof SetupRoleRoute
+  SetupSecurityRoute: typeof SetupSecurityRoute
   SetupSiteRoute: typeof SetupSiteRoute
   SetupUserRoute: typeof SetupUserRoute
+  SetupUsersRolesRoute: typeof SetupUsersRolesRoute
+  SetupWorkflowsRoute: typeof SetupWorkflowsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -272,6 +338,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/workflows': {
+      id: '/setup/workflows'
+      path: '/setup/workflows'
+      fullPath: '/setup/workflows'
+      preLoaderRoute: typeof SetupWorkflowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/users-roles': {
+      id: '/setup/users-roles'
+      path: '/setup/users-roles'
+      fullPath: '/setup/users-roles'
+      preLoaderRoute: typeof SetupUsersRolesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/setup/user': {
@@ -286,6 +366,13 @@ declare module '@tanstack/react-router' {
       path: '/setup/site'
       fullPath: '/setup/site'
       preLoaderRoute: typeof SetupSiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/security': {
+      id: '/setup/security'
+      path: '/setup/security'
+      fullPath: '/setup/security'
+      preLoaderRoute: typeof SetupSecurityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/setup/role': {
@@ -316,11 +403,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupPermissionMatrixRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/setup/organization-structure': {
+      id: '/setup/organization-structure'
+      path: '/setup/organization-structure'
+      fullPath: '/setup/organization-structure'
+      preLoaderRoute: typeof SetupOrganizationStructureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/setup/organization': {
       id: '/setup/organization'
       path: '/setup/organization'
       fullPath: '/setup/organization'
       preLoaderRoute: typeof SetupOrganizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/modules-permissions': {
+      id: '/setup/modules-permissions'
+      path: '/setup/modules-permissions'
+      fullPath: '/setup/modules-permissions'
+      preLoaderRoute: typeof SetupModulesPermissionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/setup/module-visibility': {
@@ -408,13 +509,18 @@ const rootRouteChildren: RootRouteChildren = {
   SetupLoginAuthenticationRoute: SetupLoginAuthenticationRoute,
   SetupModuleRoute: SetupModuleRoute,
   SetupModuleVisibilityRoute: SetupModuleVisibilityRoute,
+  SetupModulesPermissionsRoute: SetupModulesPermissionsRoute,
   SetupOrganizationRoute: SetupOrganizationRoute,
+  SetupOrganizationStructureRoute: SetupOrganizationStructureRoute,
   SetupPermissionMatrixRoute: SetupPermissionMatrixRoute,
   SetupRegionRoute: SetupRegionRoute,
   SetupReportingStructureRoute: SetupReportingStructureRoute,
   SetupRoleRoute: SetupRoleRoute,
+  SetupSecurityRoute: SetupSecurityRoute,
   SetupSiteRoute: SetupSiteRoute,
   SetupUserRoute: SetupUserRoute,
+  SetupUsersRolesRoute: SetupUsersRolesRoute,
+  SetupWorkflowsRoute: SetupWorkflowsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
