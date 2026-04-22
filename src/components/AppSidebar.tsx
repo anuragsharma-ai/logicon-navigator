@@ -33,9 +33,9 @@ const businessModules: Group[] = [
     label: "Sales",
     icon: TrendingUp,
     items: [
-      { label: "Lead" },
-      { label: "Target vs Achieved" },
-      { label: "Client Loss" },
+      { label: "Lead", to: "/sales/lead" },
+      { label: "Target vs Achieved", to: "/sales/target-vs-achieved" },
+      { label: "Client Loss", to: "/sales/client-loss" },
     ],
   },
   {
