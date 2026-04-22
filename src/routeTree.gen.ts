@@ -19,7 +19,10 @@ import { Route as SetupAuditLogsRouteImport } from './routes/setup.audit-logs'
 import { Route as SalesTargetVsAchievedRouteImport } from './routes/sales.target-vs-achieved'
 import { Route as SalesLeadRouteImport } from './routes/sales.lead'
 import { Route as SalesClientLossRouteImport } from './routes/sales.client-loss'
+import { Route as FinanceExpensesRouteImport } from './routes/finance.expenses'
+import { Route as FinanceClientOnboardingRouteImport } from './routes/finance.client-onboarding'
 import { Route as FinanceClientBillingRouteImport } from './routes/finance.client-billing'
+import { Route as FinanceBudgetRouteImport } from './routes/finance.budget'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -72,15 +75,33 @@ const SalesClientLossRoute = SalesClientLossRouteImport.update({
   path: '/sales/client-loss',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanceExpensesRoute = FinanceExpensesRouteImport.update({
+  id: '/finance/expenses',
+  path: '/finance/expenses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceClientOnboardingRoute = FinanceClientOnboardingRouteImport.update({
+  id: '/finance/client-onboarding',
+  path: '/finance/client-onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceClientBillingRoute = FinanceClientBillingRouteImport.update({
   id: '/finance/client-billing',
   path: '/finance/client-billing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanceBudgetRoute = FinanceBudgetRouteImport.update({
+  id: '/finance/budget',
+  path: '/finance/budget',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/finance/budget': typeof FinanceBudgetRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
+  '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
+  '/finance/expenses': typeof FinanceExpensesRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -93,7 +114,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/finance/budget': typeof FinanceBudgetRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
+  '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
+  '/finance/expenses': typeof FinanceExpensesRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -107,7 +131,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/finance/budget': typeof FinanceBudgetRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
+  '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
+  '/finance/expenses': typeof FinanceExpensesRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -122,7 +149,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/finance/budget'
     | '/finance/client-billing'
+    | '/finance/client-onboarding'
+    | '/finance/expenses'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -135,7 +165,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/finance/budget'
     | '/finance/client-billing'
+    | '/finance/client-onboarding'
+    | '/finance/expenses'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -148,7 +181,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/finance/budget'
     | '/finance/client-billing'
+    | '/finance/client-onboarding'
+    | '/finance/expenses'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -162,7 +198,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FinanceBudgetRoute: typeof FinanceBudgetRoute
   FinanceClientBillingRoute: typeof FinanceClientBillingRoute
+  FinanceClientOnboardingRoute: typeof FinanceClientOnboardingRoute
+  FinanceExpensesRoute: typeof FinanceExpensesRoute
   SalesClientLossRoute: typeof SalesClientLossRoute
   SalesLeadRoute: typeof SalesLeadRoute
   SalesTargetVsAchievedRoute: typeof SalesTargetVsAchievedRoute
@@ -246,6 +285,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SalesClientLossRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/expenses': {
+      id: '/finance/expenses'
+      path: '/finance/expenses'
+      fullPath: '/finance/expenses'
+      preLoaderRoute: typeof FinanceExpensesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance/client-onboarding': {
+      id: '/finance/client-onboarding'
+      path: '/finance/client-onboarding'
+      fullPath: '/finance/client-onboarding'
+      preLoaderRoute: typeof FinanceClientOnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/client-billing': {
       id: '/finance/client-billing'
       path: '/finance/client-billing'
@@ -253,12 +306,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceClientBillingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/budget': {
+      id: '/finance/budget'
+      path: '/finance/budget'
+      fullPath: '/finance/budget'
+      preLoaderRoute: typeof FinanceBudgetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FinanceBudgetRoute: FinanceBudgetRoute,
   FinanceClientBillingRoute: FinanceClientBillingRoute,
+  FinanceClientOnboardingRoute: FinanceClientOnboardingRoute,
+  FinanceExpensesRoute: FinanceExpensesRoute,
   SalesClientLossRoute: SalesClientLossRoute,
   SalesLeadRoute: SalesLeadRoute,
   SalesTargetVsAchievedRoute: SalesTargetVsAchievedRoute,
