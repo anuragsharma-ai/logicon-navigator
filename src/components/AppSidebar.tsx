@@ -66,7 +66,7 @@ const businessModules: Group[] = [
     label: "HR",
     icon: Users,
     items: [
-      { label: "HRMS" },
+      { label: "HRMS", to: "/hr/hrms" },
       { label: "Org Chart" },
       { label: "Gallery" },
     ],
