@@ -2,16 +2,12 @@ import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Home,
-  Briefcase,
-  Megaphone,
   TrendingUp,
   Wallet,
   Settings,
   Users,
-  BarChart3,
   Shield,
   ChevronDown,
-  Star,
   PanelLeftClose,
   PanelLeft,
   Search,
@@ -32,29 +28,12 @@ type Group = {
   items?: Item[];
 };
 
-const workplace: Group = {
-  label: "Workplace",
-  icon: Briefcase,
-  items: [
-    { label: "Email" },
-    { label: "News" },
-    { label: "DMS" },
-    { label: "VMS - Offices" },
-  ],
-};
-
 const businessModules: Group[] = [
-  {
-    label: "Marketing",
-    icon: Megaphone,
-    items: [{ label: "Task Management" }, { label: "Spend Category vs Leads" }],
-  },
   {
     label: "Sales",
     icon: TrendingUp,
     items: [
-      { label: "Leads" },
-      { label: "Field Sense" },
+      { label: "Lead" },
       { label: "Target vs Achieved" },
       { label: "Client Loss" },
     ],
@@ -66,11 +45,7 @@ const businessModules: Group[] = [
       { label: "Client Onboarding" },
       { label: "Client Billing", to: "/finance/client-billing" },
       { label: "Expenses" },
-      { label: "Client Loss" },
-      { label: "Task Management" },
       { label: "Budget" },
-      { label: "Vendor Portal" },
-      { label: "Client Portal" },
     ],
   },
   {
@@ -81,7 +56,7 @@ const businessModules: Group[] = [
       { label: "Audit" },
       { label: "Assets" },
       { label: "Inventory" },
-      { label: "Field Service" },
+      { label: "Field Sense" },
       { label: "Tickets" },
       { label: "Toolbox Training" },
     ],
@@ -91,27 +66,9 @@ const businessModules: Group[] = [
     icon: Users,
     items: [
       { label: "HRMS" },
-      { label: "Attendance" },
-      { label: "Onboarding" },
-      { label: "Leaves" },
-      { label: "Shifts / Roster" },
-      { label: "Payroll" },
-      { label: "ESIC / PF" },
-      { label: "Bank Updates" },
-      { label: "Uniform" },
-      { label: "Training" },
-      { label: "Tasks" },
-      { label: "Tickets" },
       { label: "Org Chart" },
       { label: "Gallery" },
-      { label: "Today Birthday" },
-      { label: "Recognition Wall" },
     ],
-  },
-  {
-    label: "Management",
-    icon: BarChart3,
-    items: [{ label: "Dashboard" }],
   },
 ];
 
@@ -127,12 +84,6 @@ const setup: Group = {
     { label: "Audit Logs", to: "/setup/audit-logs" },
   ],
 };
-
-const favorites: Item[] = [
-  { label: "Client Billing", to: "/finance/client-billing" },
-  { label: "Leads" },
-  { label: "Attendance" },
-];
 
 interface SidebarProps {
   collapsed: boolean;
@@ -150,7 +101,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
   // Open the group containing the active route by default
   const [open, setOpen] = useState<Record<string, boolean>>(() => {
     const init: Record<string, boolean> = {};
-    [workplace, ...businessModules, setup].forEach((g) => {
+    [...businessModules, setup].forEach((g) => {
       if (groupHasActive(g)) init[g.label] = true;
     });
     if (Object.keys(init).length === 0) init["Finance"] = true;
@@ -215,18 +166,6 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
             active={isActive("/")}
             collapsed={collapsed}
           />
-
-          {/* Workplace */}
-          <div className="mt-5">
-            <NavGroup
-              group={workplace}
-              open={!!open[workplace.label]}
-              onToggle={() => toggle(workplace.label)}
-              collapsed={collapsed}
-              isActive={isActive}
-              groupActive={groupHasActive(workplace)}
-            />
-          </div>
 
           {/* Business Modules */}
           {!collapsed && (
