@@ -2,16 +2,12 @@ import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Home,
-  Briefcase,
-  Megaphone,
   TrendingUp,
   Wallet,
   Settings,
   Users,
-  BarChart3,
   Shield,
   ChevronDown,
-  Star,
   PanelLeftClose,
   PanelLeft,
   Search,
