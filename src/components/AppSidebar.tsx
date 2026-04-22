@@ -42,10 +42,10 @@ const businessModules: Group[] = [
     label: "Finance",
     icon: Wallet,
     items: [
-      { label: "Client Onboarding" },
+      { label: "Client Onboarding", to: "/finance/client-onboarding" },
       { label: "Client Billing", to: "/finance/client-billing" },
-      { label: "Expenses" },
-      { label: "Budget" },
+      { label: "Expenses", to: "/finance/expenses" },
+      { label: "Budget", to: "/finance/budget" },
     ],
   },
   {
