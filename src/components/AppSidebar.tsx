@@ -338,7 +338,7 @@ function NavLeaf({
   collapsed,
   nested,
 }: {
-  icon: React.ComponentType<{ className?: string; size?: number }>;
+  icon: React.ComponentType<{ className?: string; size?: number | string }>;
   label: string;
   to?: string;
   active?: boolean;
