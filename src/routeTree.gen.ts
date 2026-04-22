@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FinanceClientBillingRouteImport } from './routes/finance.client-billing'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanceClientBillingRoute = FinanceClientBillingRouteImport.update({
+  id: '/finance/client-billing',
+  path: '/finance/client-billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/finance/client-billing': typeof FinanceClientBillingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/finance/client-billing': typeof FinanceClientBillingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/finance/client-billing': typeof FinanceClientBillingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/finance/client-billing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/finance/client-billing'
+  id: '__root__' | '/' | '/finance/client-billing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FinanceClientBillingRoute: typeof FinanceClientBillingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/client-billing': {
+      id: '/finance/client-billing'
+      path: '/finance/client-billing'
+      fullPath: '/finance/client-billing'
+      preLoaderRoute: typeof FinanceClientBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FinanceClientBillingRoute: FinanceClientBillingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
