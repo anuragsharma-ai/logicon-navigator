@@ -57,7 +57,7 @@ export const roles = [
   { id: "rl-5", name: "Sales Rep", code: "SLS_REP", deptId: "dp-4", scope: "Self", manageUsers: false, approve: false, dashboard: "Department", crossDept: false, status: true },
 ];
 
-export const modules = [
+export const modules: { id: string; name: string; parentId: string | null; deptId: string; type: string; route: string; icon: string; visible: boolean; status: boolean }[] = [
   { id: "mod-1", name: "Client Billing", parentId: null, deptId: "dp-2", type: "Department", route: "/finance/client-billing", icon: "Wallet", visible: true, status: true },
   { id: "mod-2", name: "Tickets", parentId: null, deptId: "dp-1", type: "Common", route: "/ops/tickets", icon: "Ticket", visible: true, status: true },
   { id: "mod-3", name: "Assets", parentId: null, deptId: "dp-1", type: "Department", route: "/ops/assets", icon: "Package", visible: true, status: true },
