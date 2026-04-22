@@ -12,25 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SetupWorkflowsRouteImport } from './routes/setup.workflows'
 import { Route as SetupUsersRolesRouteImport } from './routes/setup.users-roles'
-import { Route as SetupUserRouteImport } from './routes/setup.user'
-import { Route as SetupSiteRouteImport } from './routes/setup.site'
 import { Route as SetupSecurityRouteImport } from './routes/setup.security'
-import { Route as SetupRoleRouteImport } from './routes/setup.role'
-import { Route as SetupReportingStructureRouteImport } from './routes/setup.reporting-structure'
-import { Route as SetupRegionRouteImport } from './routes/setup.region'
-import { Route as SetupPermissionMatrixRouteImport } from './routes/setup.permission-matrix'
 import { Route as SetupOrganizationStructureRouteImport } from './routes/setup.organization-structure'
-import { Route as SetupOrganizationRouteImport } from './routes/setup.organization'
 import { Route as SetupModulesPermissionsRouteImport } from './routes/setup.modules-permissions'
-import { Route as SetupModuleVisibilityRouteImport } from './routes/setup.module-visibility'
-import { Route as SetupModuleRouteImport } from './routes/setup.module'
-import { Route as SetupLoginAuthenticationRouteImport } from './routes/setup.login-authentication'
-import { Route as SetupDesignationRouteImport } from './routes/setup.designation'
-import { Route as SetupDepartmentRouteImport } from './routes/setup.department'
-import { Route as SetupBusinessUnitRouteImport } from './routes/setup.business-unit'
 import { Route as SetupAuditLogsRouteImport } from './routes/setup.audit-logs'
-import { Route as SetupApprovalWorkflowRouteImport } from './routes/setup.approval-workflow'
-import { Route as SetupAccessLevelRouteImport } from './routes/setup.access-level'
 import { Route as FinanceClientBillingRouteImport } from './routes/finance.client-billing'
 
 const IndexRoute = IndexRouteImport.update({
@@ -48,39 +33,9 @@ const SetupUsersRolesRoute = SetupUsersRolesRouteImport.update({
   path: '/setup/users-roles',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SetupUserRoute = SetupUserRouteImport.update({
-  id: '/setup/user',
-  path: '/setup/user',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupSiteRoute = SetupSiteRouteImport.update({
-  id: '/setup/site',
-  path: '/setup/site',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SetupSecurityRoute = SetupSecurityRouteImport.update({
   id: '/setup/security',
   path: '/setup/security',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupRoleRoute = SetupRoleRouteImport.update({
-  id: '/setup/role',
-  path: '/setup/role',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupReportingStructureRoute = SetupReportingStructureRouteImport.update({
-  id: '/setup/reporting-structure',
-  path: '/setup/reporting-structure',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupRegionRoute = SetupRegionRouteImport.update({
-  id: '/setup/region',
-  path: '/setup/region',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupPermissionMatrixRoute = SetupPermissionMatrixRouteImport.update({
-  id: '/setup/permission-matrix',
-  path: '/setup/permission-matrix',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SetupOrganizationStructureRoute =
@@ -89,60 +44,14 @@ const SetupOrganizationStructureRoute =
     path: '/setup/organization-structure',
     getParentRoute: () => rootRouteImport,
   } as any)
-const SetupOrganizationRoute = SetupOrganizationRouteImport.update({
-  id: '/setup/organization',
-  path: '/setup/organization',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SetupModulesPermissionsRoute = SetupModulesPermissionsRouteImport.update({
   id: '/setup/modules-permissions',
   path: '/setup/modules-permissions',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SetupModuleVisibilityRoute = SetupModuleVisibilityRouteImport.update({
-  id: '/setup/module-visibility',
-  path: '/setup/module-visibility',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupModuleRoute = SetupModuleRouteImport.update({
-  id: '/setup/module',
-  path: '/setup/module',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupLoginAuthenticationRoute =
-  SetupLoginAuthenticationRouteImport.update({
-    id: '/setup/login-authentication',
-    path: '/setup/login-authentication',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const SetupDesignationRoute = SetupDesignationRouteImport.update({
-  id: '/setup/designation',
-  path: '/setup/designation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupDepartmentRoute = SetupDepartmentRouteImport.update({
-  id: '/setup/department',
-  path: '/setup/department',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupBusinessUnitRoute = SetupBusinessUnitRouteImport.update({
-  id: '/setup/business-unit',
-  path: '/setup/business-unit',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SetupAuditLogsRoute = SetupAuditLogsRouteImport.update({
   id: '/setup/audit-logs',
   path: '/setup/audit-logs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupApprovalWorkflowRoute = SetupApprovalWorkflowRouteImport.update({
-  id: '/setup/approval-workflow',
-  path: '/setup/approval-workflow',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SetupAccessLevelRoute = SetupAccessLevelRouteImport.update({
-  id: '/setup/access-level',
-  path: '/setup/access-level',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceClientBillingRoute = FinanceClientBillingRouteImport.update({
@@ -154,50 +63,20 @@ const FinanceClientBillingRoute = FinanceClientBillingRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
-  '/setup/access-level': typeof SetupAccessLevelRoute
-  '/setup/approval-workflow': typeof SetupApprovalWorkflowRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
-  '/setup/business-unit': typeof SetupBusinessUnitRoute
-  '/setup/department': typeof SetupDepartmentRoute
-  '/setup/designation': typeof SetupDesignationRoute
-  '/setup/login-authentication': typeof SetupLoginAuthenticationRoute
-  '/setup/module': typeof SetupModuleRoute
-  '/setup/module-visibility': typeof SetupModuleVisibilityRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
-  '/setup/organization': typeof SetupOrganizationRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
-  '/setup/permission-matrix': typeof SetupPermissionMatrixRoute
-  '/setup/region': typeof SetupRegionRoute
-  '/setup/reporting-structure': typeof SetupReportingStructureRoute
-  '/setup/role': typeof SetupRoleRoute
   '/setup/security': typeof SetupSecurityRoute
-  '/setup/site': typeof SetupSiteRoute
-  '/setup/user': typeof SetupUserRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
-  '/setup/access-level': typeof SetupAccessLevelRoute
-  '/setup/approval-workflow': typeof SetupApprovalWorkflowRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
-  '/setup/business-unit': typeof SetupBusinessUnitRoute
-  '/setup/department': typeof SetupDepartmentRoute
-  '/setup/designation': typeof SetupDesignationRoute
-  '/setup/login-authentication': typeof SetupLoginAuthenticationRoute
-  '/setup/module': typeof SetupModuleRoute
-  '/setup/module-visibility': typeof SetupModuleVisibilityRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
-  '/setup/organization': typeof SetupOrganizationRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
-  '/setup/permission-matrix': typeof SetupPermissionMatrixRoute
-  '/setup/region': typeof SetupRegionRoute
-  '/setup/reporting-structure': typeof SetupReportingStructureRoute
-  '/setup/role': typeof SetupRoleRoute
   '/setup/security': typeof SetupSecurityRoute
-  '/setup/site': typeof SetupSiteRoute
-  '/setup/user': typeof SetupUserRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
 }
@@ -205,25 +84,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
-  '/setup/access-level': typeof SetupAccessLevelRoute
-  '/setup/approval-workflow': typeof SetupApprovalWorkflowRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
-  '/setup/business-unit': typeof SetupBusinessUnitRoute
-  '/setup/department': typeof SetupDepartmentRoute
-  '/setup/designation': typeof SetupDesignationRoute
-  '/setup/login-authentication': typeof SetupLoginAuthenticationRoute
-  '/setup/module': typeof SetupModuleRoute
-  '/setup/module-visibility': typeof SetupModuleVisibilityRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
-  '/setup/organization': typeof SetupOrganizationRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
-  '/setup/permission-matrix': typeof SetupPermissionMatrixRoute
-  '/setup/region': typeof SetupRegionRoute
-  '/setup/reporting-structure': typeof SetupReportingStructureRoute
-  '/setup/role': typeof SetupRoleRoute
   '/setup/security': typeof SetupSecurityRoute
-  '/setup/site': typeof SetupSiteRoute
-  '/setup/user': typeof SetupUserRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
 }
@@ -232,75 +96,30 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/finance/client-billing'
-    | '/setup/access-level'
-    | '/setup/approval-workflow'
     | '/setup/audit-logs'
-    | '/setup/business-unit'
-    | '/setup/department'
-    | '/setup/designation'
-    | '/setup/login-authentication'
-    | '/setup/module'
-    | '/setup/module-visibility'
     | '/setup/modules-permissions'
-    | '/setup/organization'
     | '/setup/organization-structure'
-    | '/setup/permission-matrix'
-    | '/setup/region'
-    | '/setup/reporting-structure'
-    | '/setup/role'
     | '/setup/security'
-    | '/setup/site'
-    | '/setup/user'
     | '/setup/users-roles'
     | '/setup/workflows'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/finance/client-billing'
-    | '/setup/access-level'
-    | '/setup/approval-workflow'
     | '/setup/audit-logs'
-    | '/setup/business-unit'
-    | '/setup/department'
-    | '/setup/designation'
-    | '/setup/login-authentication'
-    | '/setup/module'
-    | '/setup/module-visibility'
     | '/setup/modules-permissions'
-    | '/setup/organization'
     | '/setup/organization-structure'
-    | '/setup/permission-matrix'
-    | '/setup/region'
-    | '/setup/reporting-structure'
-    | '/setup/role'
     | '/setup/security'
-    | '/setup/site'
-    | '/setup/user'
     | '/setup/users-roles'
     | '/setup/workflows'
   id:
     | '__root__'
     | '/'
     | '/finance/client-billing'
-    | '/setup/access-level'
-    | '/setup/approval-workflow'
     | '/setup/audit-logs'
-    | '/setup/business-unit'
-    | '/setup/department'
-    | '/setup/designation'
-    | '/setup/login-authentication'
-    | '/setup/module'
-    | '/setup/module-visibility'
     | '/setup/modules-permissions'
-    | '/setup/organization'
     | '/setup/organization-structure'
-    | '/setup/permission-matrix'
-    | '/setup/region'
-    | '/setup/reporting-structure'
-    | '/setup/role'
     | '/setup/security'
-    | '/setup/site'
-    | '/setup/user'
     | '/setup/users-roles'
     | '/setup/workflows'
   fileRoutesById: FileRoutesById
@@ -308,25 +127,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FinanceClientBillingRoute: typeof FinanceClientBillingRoute
-  SetupAccessLevelRoute: typeof SetupAccessLevelRoute
-  SetupApprovalWorkflowRoute: typeof SetupApprovalWorkflowRoute
   SetupAuditLogsRoute: typeof SetupAuditLogsRoute
-  SetupBusinessUnitRoute: typeof SetupBusinessUnitRoute
-  SetupDepartmentRoute: typeof SetupDepartmentRoute
-  SetupDesignationRoute: typeof SetupDesignationRoute
-  SetupLoginAuthenticationRoute: typeof SetupLoginAuthenticationRoute
-  SetupModuleRoute: typeof SetupModuleRoute
-  SetupModuleVisibilityRoute: typeof SetupModuleVisibilityRoute
   SetupModulesPermissionsRoute: typeof SetupModulesPermissionsRoute
-  SetupOrganizationRoute: typeof SetupOrganizationRoute
   SetupOrganizationStructureRoute: typeof SetupOrganizationStructureRoute
-  SetupPermissionMatrixRoute: typeof SetupPermissionMatrixRoute
-  SetupRegionRoute: typeof SetupRegionRoute
-  SetupReportingStructureRoute: typeof SetupReportingStructureRoute
-  SetupRoleRoute: typeof SetupRoleRoute
   SetupSecurityRoute: typeof SetupSecurityRoute
-  SetupSiteRoute: typeof SetupSiteRoute
-  SetupUserRoute: typeof SetupUserRoute
   SetupUsersRolesRoute: typeof SetupUsersRolesRoute
   SetupWorkflowsRoute: typeof SetupWorkflowsRoute
 }
@@ -354,53 +158,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupUsersRolesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/setup/user': {
-      id: '/setup/user'
-      path: '/setup/user'
-      fullPath: '/setup/user'
-      preLoaderRoute: typeof SetupUserRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/site': {
-      id: '/setup/site'
-      path: '/setup/site'
-      fullPath: '/setup/site'
-      preLoaderRoute: typeof SetupSiteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/setup/security': {
       id: '/setup/security'
       path: '/setup/security'
       fullPath: '/setup/security'
       preLoaderRoute: typeof SetupSecurityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/role': {
-      id: '/setup/role'
-      path: '/setup/role'
-      fullPath: '/setup/role'
-      preLoaderRoute: typeof SetupRoleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/reporting-structure': {
-      id: '/setup/reporting-structure'
-      path: '/setup/reporting-structure'
-      fullPath: '/setup/reporting-structure'
-      preLoaderRoute: typeof SetupReportingStructureRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/region': {
-      id: '/setup/region'
-      path: '/setup/region'
-      fullPath: '/setup/region'
-      preLoaderRoute: typeof SetupRegionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/permission-matrix': {
-      id: '/setup/permission-matrix'
-      path: '/setup/permission-matrix'
-      fullPath: '/setup/permission-matrix'
-      preLoaderRoute: typeof SetupPermissionMatrixRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/setup/organization-structure': {
@@ -410,13 +172,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupOrganizationStructureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/setup/organization': {
-      id: '/setup/organization'
-      path: '/setup/organization'
-      fullPath: '/setup/organization'
-      preLoaderRoute: typeof SetupOrganizationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/setup/modules-permissions': {
       id: '/setup/modules-permissions'
       path: '/setup/modules-permissions'
@@ -424,67 +179,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupModulesPermissionsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/setup/module-visibility': {
-      id: '/setup/module-visibility'
-      path: '/setup/module-visibility'
-      fullPath: '/setup/module-visibility'
-      preLoaderRoute: typeof SetupModuleVisibilityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/module': {
-      id: '/setup/module'
-      path: '/setup/module'
-      fullPath: '/setup/module'
-      preLoaderRoute: typeof SetupModuleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/login-authentication': {
-      id: '/setup/login-authentication'
-      path: '/setup/login-authentication'
-      fullPath: '/setup/login-authentication'
-      preLoaderRoute: typeof SetupLoginAuthenticationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/designation': {
-      id: '/setup/designation'
-      path: '/setup/designation'
-      fullPath: '/setup/designation'
-      preLoaderRoute: typeof SetupDesignationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/department': {
-      id: '/setup/department'
-      path: '/setup/department'
-      fullPath: '/setup/department'
-      preLoaderRoute: typeof SetupDepartmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/business-unit': {
-      id: '/setup/business-unit'
-      path: '/setup/business-unit'
-      fullPath: '/setup/business-unit'
-      preLoaderRoute: typeof SetupBusinessUnitRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/setup/audit-logs': {
       id: '/setup/audit-logs'
       path: '/setup/audit-logs'
       fullPath: '/setup/audit-logs'
       preLoaderRoute: typeof SetupAuditLogsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/approval-workflow': {
-      id: '/setup/approval-workflow'
-      path: '/setup/approval-workflow'
-      fullPath: '/setup/approval-workflow'
-      preLoaderRoute: typeof SetupApprovalWorkflowRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/setup/access-level': {
-      id: '/setup/access-level'
-      path: '/setup/access-level'
-      fullPath: '/setup/access-level'
-      preLoaderRoute: typeof SetupAccessLevelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance/client-billing': {
@@ -500,25 +199,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FinanceClientBillingRoute: FinanceClientBillingRoute,
-  SetupAccessLevelRoute: SetupAccessLevelRoute,
-  SetupApprovalWorkflowRoute: SetupApprovalWorkflowRoute,
   SetupAuditLogsRoute: SetupAuditLogsRoute,
-  SetupBusinessUnitRoute: SetupBusinessUnitRoute,
-  SetupDepartmentRoute: SetupDepartmentRoute,
-  SetupDesignationRoute: SetupDesignationRoute,
-  SetupLoginAuthenticationRoute: SetupLoginAuthenticationRoute,
-  SetupModuleRoute: SetupModuleRoute,
-  SetupModuleVisibilityRoute: SetupModuleVisibilityRoute,
   SetupModulesPermissionsRoute: SetupModulesPermissionsRoute,
-  SetupOrganizationRoute: SetupOrganizationRoute,
   SetupOrganizationStructureRoute: SetupOrganizationStructureRoute,
-  SetupPermissionMatrixRoute: SetupPermissionMatrixRoute,
-  SetupRegionRoute: SetupRegionRoute,
-  SetupReportingStructureRoute: SetupReportingStructureRoute,
-  SetupRoleRoute: SetupRoleRoute,
   SetupSecurityRoute: SetupSecurityRoute,
-  SetupSiteRoute: SetupSiteRoute,
-  SetupUserRoute: SetupUserRoute,
   SetupUsersRolesRoute: SetupUsersRolesRoute,
   SetupWorkflowsRoute: SetupWorkflowsRoute,
 }
