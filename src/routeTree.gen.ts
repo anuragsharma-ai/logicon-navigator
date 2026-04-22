@@ -16,6 +16,9 @@ import { Route as SetupSecurityRouteImport } from './routes/setup.security'
 import { Route as SetupOrganizationStructureRouteImport } from './routes/setup.organization-structure'
 import { Route as SetupModulesPermissionsRouteImport } from './routes/setup.modules-permissions'
 import { Route as SetupAuditLogsRouteImport } from './routes/setup.audit-logs'
+import { Route as SalesTargetVsAchievedRouteImport } from './routes/sales.target-vs-achieved'
+import { Route as SalesLeadRouteImport } from './routes/sales.lead'
+import { Route as SalesClientLossRouteImport } from './routes/sales.client-loss'
 import { Route as FinanceClientBillingRouteImport } from './routes/finance.client-billing'
 
 const IndexRoute = IndexRouteImport.update({
@@ -54,6 +57,21 @@ const SetupAuditLogsRoute = SetupAuditLogsRouteImport.update({
   path: '/setup/audit-logs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SalesTargetVsAchievedRoute = SalesTargetVsAchievedRouteImport.update({
+  id: '/sales/target-vs-achieved',
+  path: '/sales/target-vs-achieved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SalesLeadRoute = SalesLeadRouteImport.update({
+  id: '/sales/lead',
+  path: '/sales/lead',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SalesClientLossRoute = SalesClientLossRouteImport.update({
+  id: '/sales/client-loss',
+  path: '/sales/client-loss',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceClientBillingRoute = FinanceClientBillingRouteImport.update({
   id: '/finance/client-billing',
   path: '/finance/client-billing',
@@ -63,6 +81,9 @@ const FinanceClientBillingRoute = FinanceClientBillingRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
+  '/sales/client-loss': typeof SalesClientLossRoute
+  '/sales/lead': typeof SalesLeadRoute
+  '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
@@ -73,6 +94,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
+  '/sales/client-loss': typeof SalesClientLossRoute
+  '/sales/lead': typeof SalesLeadRoute
+  '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
@@ -84,6 +108,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/finance/client-billing': typeof FinanceClientBillingRoute
+  '/sales/client-loss': typeof SalesClientLossRoute
+  '/sales/lead': typeof SalesLeadRoute
+  '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
@@ -96,6 +123,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/finance/client-billing'
+    | '/sales/client-loss'
+    | '/sales/lead'
+    | '/sales/target-vs-achieved'
     | '/setup/audit-logs'
     | '/setup/modules-permissions'
     | '/setup/organization-structure'
@@ -106,6 +136,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/finance/client-billing'
+    | '/sales/client-loss'
+    | '/sales/lead'
+    | '/sales/target-vs-achieved'
     | '/setup/audit-logs'
     | '/setup/modules-permissions'
     | '/setup/organization-structure'
@@ -116,6 +149,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/finance/client-billing'
+    | '/sales/client-loss'
+    | '/sales/lead'
+    | '/sales/target-vs-achieved'
     | '/setup/audit-logs'
     | '/setup/modules-permissions'
     | '/setup/organization-structure'
@@ -127,6 +163,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FinanceClientBillingRoute: typeof FinanceClientBillingRoute
+  SalesClientLossRoute: typeof SalesClientLossRoute
+  SalesLeadRoute: typeof SalesLeadRoute
+  SalesTargetVsAchievedRoute: typeof SalesTargetVsAchievedRoute
   SetupAuditLogsRoute: typeof SetupAuditLogsRoute
   SetupModulesPermissionsRoute: typeof SetupModulesPermissionsRoute
   SetupOrganizationStructureRoute: typeof SetupOrganizationStructureRoute
@@ -186,6 +225,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupAuditLogsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sales/target-vs-achieved': {
+      id: '/sales/target-vs-achieved'
+      path: '/sales/target-vs-achieved'
+      fullPath: '/sales/target-vs-achieved'
+      preLoaderRoute: typeof SalesTargetVsAchievedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sales/lead': {
+      id: '/sales/lead'
+      path: '/sales/lead'
+      fullPath: '/sales/lead'
+      preLoaderRoute: typeof SalesLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sales/client-loss': {
+      id: '/sales/client-loss'
+      path: '/sales/client-loss'
+      fullPath: '/sales/client-loss'
+      preLoaderRoute: typeof SalesClientLossRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/client-billing': {
       id: '/finance/client-billing'
       path: '/finance/client-billing'
@@ -199,6 +259,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FinanceClientBillingRoute: FinanceClientBillingRoute,
+  SalesClientLossRoute: SalesClientLossRoute,
+  SalesLeadRoute: SalesLeadRoute,
+  SalesTargetVsAchievedRoute: SalesTargetVsAchievedRoute,
   SetupAuditLogsRoute: SetupAuditLogsRoute,
   SetupModulesPermissionsRoute: SetupModulesPermissionsRoute,
   SetupOrganizationStructureRoute: SetupOrganizationStructureRoute,
@@ -209,12 +272,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
