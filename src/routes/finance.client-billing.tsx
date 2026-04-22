@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppLayout } from "@/components/AppLayout";
 import {
@@ -11,6 +12,8 @@ import {
   CheckCircle2,
   Clock,
   AlertCircle,
+  X,
+  Trash2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/finance/client-billing")({
