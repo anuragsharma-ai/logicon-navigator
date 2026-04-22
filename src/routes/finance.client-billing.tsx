@@ -136,6 +136,7 @@ function StatusPill({ status }: { status: string }) {
 }
 
 function ClientBillingPage() {
+  const [drawer, setDrawer] = useState(false);
   return (
     <AppLayout>
       <div className="px-8 py-7">
