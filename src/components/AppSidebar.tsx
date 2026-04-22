@@ -27,7 +27,7 @@ import {
 type Item = { label: string; to?: string };
 type Group = {
   label: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string; size?: number | string }>;
   to?: string;
   items?: Item[];
 };
