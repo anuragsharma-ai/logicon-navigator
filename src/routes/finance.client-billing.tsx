@@ -170,7 +170,10 @@ function ClientBillingPage() {
               <Download size={14} />
               Export
             </button>
-            <button className="inline-flex h-9 items-center gap-1.5 rounded-md bg-primary px-3 text-[13px] font-medium text-primary-foreground hover:opacity-95">
+            <button
+              onClick={() => setDrawer(true)}
+              className="inline-flex h-9 items-center gap-1.5 rounded-md bg-primary px-3 text-[13px] font-medium text-primary-foreground hover:opacity-95"
+            >
               <Plus size={14} />
               New Invoice
             </button>
