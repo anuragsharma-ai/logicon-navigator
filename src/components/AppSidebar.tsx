@@ -101,7 +101,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
   // Open the group containing the active route by default
   const [open, setOpen] = useState<Record<string, boolean>>(() => {
     const init: Record<string, boolean> = {};
-    [workplace, ...businessModules, setup].forEach((g) => {
+    [...businessModules, setup].forEach((g) => {
       if (groupHasActive(g)) init[g.label] = true;
     });
     if (Object.keys(init).length === 0) init["Finance"] = true;
