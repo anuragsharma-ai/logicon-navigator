@@ -167,18 +167,6 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
             collapsed={collapsed}
           />
 
-          {/* Workplace */}
-          <div className="mt-5">
-            <NavGroup
-              group={workplace}
-              open={!!open[workplace.label]}
-              onToggle={() => toggle(workplace.label)}
-              collapsed={collapsed}
-              isActive={isActive}
-              groupActive={groupHasActive(workplace)}
-            />
-          </div>
-
           {/* Business Modules */}
           {!collapsed && (
             <SectionLabel className="mt-5">Business Modules</SectionLabel>
