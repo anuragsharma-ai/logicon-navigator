@@ -21,7 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-type Item = { label: string; to?: string };
+type Item = { label: string; to?: string; children?: Item[] };
 type Group = {
   label: string;
   icon: React.ComponentType<{ className?: string; size?: number | string }>;
