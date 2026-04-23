@@ -74,14 +74,30 @@ const businessModules: Group[] = [
 ];
 
 const setup: Group = {
-  label: "Setup",
+  label: "Admin Portal",
   icon: Shield,
   items: [
     { label: "Organization & Structure", to: "/setup/organization-structure" },
     { label: "Users & Roles", to: "/setup/users-roles" },
+    { label: "Security & Access", to: "/setup/security" },
     { label: "Modules & Permissions", to: "/setup/modules-permissions" },
     { label: "Workflows & Approvals", to: "/setup/workflows" },
-    { label: "Security & Access", to: "/setup/security" },
+    { label: "Global Configuration" },
+    {
+      label: "Module Settings",
+      children: [
+        { label: "Sales" },
+        { label: "Finance" },
+        { label: "HR" },
+        { label: "Operations" },
+        { label: "Soft Services" },
+        { label: "Assets" },
+        { label: "Inventory" },
+        { label: "Tickets" },
+        { label: "Toolbox Training" },
+        { label: "HRMS" },
+      ],
+    },
     { label: "Audit Logs", to: "/setup/audit-logs" },
   ],
 };
