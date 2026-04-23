@@ -15,6 +15,17 @@ import { Route as SetupUsersRolesRouteImport } from './routes/setup.users-roles'
 import { Route as SetupSecurityRouteImport } from './routes/setup.security'
 import { Route as SetupOrganizationStructureRouteImport } from './routes/setup.organization-structure'
 import { Route as SetupModulesPermissionsRouteImport } from './routes/setup.modules-permissions'
+import { Route as SetupModuleToolboxTrainingRouteImport } from './routes/setup.module-toolbox-training'
+import { Route as SetupModuleTicketsRouteImport } from './routes/setup.module-tickets'
+import { Route as SetupModuleSoftServicesRouteImport } from './routes/setup.module-soft-services'
+import { Route as SetupModuleSalesRouteImport } from './routes/setup.module-sales'
+import { Route as SetupModuleOperationsRouteImport } from './routes/setup.module-operations'
+import { Route as SetupModuleInventoryRouteImport } from './routes/setup.module-inventory'
+import { Route as SetupModuleHrmsRouteImport } from './routes/setup.module-hrms'
+import { Route as SetupModuleHrRouteImport } from './routes/setup.module-hr'
+import { Route as SetupModuleFinanceRouteImport } from './routes/setup.module-finance'
+import { Route as SetupModuleAssetsRouteImport } from './routes/setup.module-assets'
+import { Route as SetupGlobalConfigRouteImport } from './routes/setup.global-config'
 import { Route as SetupAuditLogsRouteImport } from './routes/setup.audit-logs'
 import { Route as SalesTargetVsAchievedRouteImport } from './routes/sales.target-vs-achieved'
 import { Route as SalesLeadRouteImport } from './routes/sales.lead'
@@ -54,6 +65,62 @@ const SetupOrganizationStructureRoute =
 const SetupModulesPermissionsRoute = SetupModulesPermissionsRouteImport.update({
   id: '/setup/modules-permissions',
   path: '/setup/modules-permissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleToolboxTrainingRoute =
+  SetupModuleToolboxTrainingRouteImport.update({
+    id: '/setup/module-toolbox-training',
+    path: '/setup/module-toolbox-training',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SetupModuleTicketsRoute = SetupModuleTicketsRouteImport.update({
+  id: '/setup/module-tickets',
+  path: '/setup/module-tickets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleSoftServicesRoute = SetupModuleSoftServicesRouteImport.update({
+  id: '/setup/module-soft-services',
+  path: '/setup/module-soft-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleSalesRoute = SetupModuleSalesRouteImport.update({
+  id: '/setup/module-sales',
+  path: '/setup/module-sales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleOperationsRoute = SetupModuleOperationsRouteImport.update({
+  id: '/setup/module-operations',
+  path: '/setup/module-operations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleInventoryRoute = SetupModuleInventoryRouteImport.update({
+  id: '/setup/module-inventory',
+  path: '/setup/module-inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleHrmsRoute = SetupModuleHrmsRouteImport.update({
+  id: '/setup/module-hrms',
+  path: '/setup/module-hrms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleHrRoute = SetupModuleHrRouteImport.update({
+  id: '/setup/module-hr',
+  path: '/setup/module-hr',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleFinanceRoute = SetupModuleFinanceRouteImport.update({
+  id: '/setup/module-finance',
+  path: '/setup/module-finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupModuleAssetsRoute = SetupModuleAssetsRouteImport.update({
+  id: '/setup/module-assets',
+  path: '/setup/module-assets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupGlobalConfigRoute = SetupGlobalConfigRouteImport.update({
+  id: '/setup/global-config',
+  path: '/setup/global-config',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SetupAuditLogsRoute = SetupAuditLogsRouteImport.update({
@@ -113,6 +180,17 @@ export interface FileRoutesByFullPath {
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
+  '/setup/global-config': typeof SetupGlobalConfigRoute
+  '/setup/module-assets': typeof SetupModuleAssetsRoute
+  '/setup/module-finance': typeof SetupModuleFinanceRoute
+  '/setup/module-hr': typeof SetupModuleHrRoute
+  '/setup/module-hrms': typeof SetupModuleHrmsRoute
+  '/setup/module-inventory': typeof SetupModuleInventoryRoute
+  '/setup/module-operations': typeof SetupModuleOperationsRoute
+  '/setup/module-sales': typeof SetupModuleSalesRoute
+  '/setup/module-soft-services': typeof SetupModuleSoftServicesRoute
+  '/setup/module-tickets': typeof SetupModuleTicketsRoute
+  '/setup/module-toolbox-training': typeof SetupModuleToolboxTrainingRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
   '/setup/security': typeof SetupSecurityRoute
@@ -130,6 +208,17 @@ export interface FileRoutesByTo {
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
+  '/setup/global-config': typeof SetupGlobalConfigRoute
+  '/setup/module-assets': typeof SetupModuleAssetsRoute
+  '/setup/module-finance': typeof SetupModuleFinanceRoute
+  '/setup/module-hr': typeof SetupModuleHrRoute
+  '/setup/module-hrms': typeof SetupModuleHrmsRoute
+  '/setup/module-inventory': typeof SetupModuleInventoryRoute
+  '/setup/module-operations': typeof SetupModuleOperationsRoute
+  '/setup/module-sales': typeof SetupModuleSalesRoute
+  '/setup/module-soft-services': typeof SetupModuleSoftServicesRoute
+  '/setup/module-tickets': typeof SetupModuleTicketsRoute
+  '/setup/module-toolbox-training': typeof SetupModuleToolboxTrainingRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
   '/setup/security': typeof SetupSecurityRoute
@@ -148,6 +237,17 @@ export interface FileRoutesById {
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
   '/setup/audit-logs': typeof SetupAuditLogsRoute
+  '/setup/global-config': typeof SetupGlobalConfigRoute
+  '/setup/module-assets': typeof SetupModuleAssetsRoute
+  '/setup/module-finance': typeof SetupModuleFinanceRoute
+  '/setup/module-hr': typeof SetupModuleHrRoute
+  '/setup/module-hrms': typeof SetupModuleHrmsRoute
+  '/setup/module-inventory': typeof SetupModuleInventoryRoute
+  '/setup/module-operations': typeof SetupModuleOperationsRoute
+  '/setup/module-sales': typeof SetupModuleSalesRoute
+  '/setup/module-soft-services': typeof SetupModuleSoftServicesRoute
+  '/setup/module-tickets': typeof SetupModuleTicketsRoute
+  '/setup/module-toolbox-training': typeof SetupModuleToolboxTrainingRoute
   '/setup/modules-permissions': typeof SetupModulesPermissionsRoute
   '/setup/organization-structure': typeof SetupOrganizationStructureRoute
   '/setup/security': typeof SetupSecurityRoute
@@ -167,6 +267,17 @@ export interface FileRouteTypes {
     | '/sales/lead'
     | '/sales/target-vs-achieved'
     | '/setup/audit-logs'
+    | '/setup/global-config'
+    | '/setup/module-assets'
+    | '/setup/module-finance'
+    | '/setup/module-hr'
+    | '/setup/module-hrms'
+    | '/setup/module-inventory'
+    | '/setup/module-operations'
+    | '/setup/module-sales'
+    | '/setup/module-soft-services'
+    | '/setup/module-tickets'
+    | '/setup/module-toolbox-training'
     | '/setup/modules-permissions'
     | '/setup/organization-structure'
     | '/setup/security'
@@ -184,6 +295,17 @@ export interface FileRouteTypes {
     | '/sales/lead'
     | '/sales/target-vs-achieved'
     | '/setup/audit-logs'
+    | '/setup/global-config'
+    | '/setup/module-assets'
+    | '/setup/module-finance'
+    | '/setup/module-hr'
+    | '/setup/module-hrms'
+    | '/setup/module-inventory'
+    | '/setup/module-operations'
+    | '/setup/module-sales'
+    | '/setup/module-soft-services'
+    | '/setup/module-tickets'
+    | '/setup/module-toolbox-training'
     | '/setup/modules-permissions'
     | '/setup/organization-structure'
     | '/setup/security'
@@ -201,6 +323,17 @@ export interface FileRouteTypes {
     | '/sales/lead'
     | '/sales/target-vs-achieved'
     | '/setup/audit-logs'
+    | '/setup/global-config'
+    | '/setup/module-assets'
+    | '/setup/module-finance'
+    | '/setup/module-hr'
+    | '/setup/module-hrms'
+    | '/setup/module-inventory'
+    | '/setup/module-operations'
+    | '/setup/module-sales'
+    | '/setup/module-soft-services'
+    | '/setup/module-tickets'
+    | '/setup/module-toolbox-training'
     | '/setup/modules-permissions'
     | '/setup/organization-structure'
     | '/setup/security'
@@ -219,6 +352,17 @@ export interface RootRouteChildren {
   SalesLeadRoute: typeof SalesLeadRoute
   SalesTargetVsAchievedRoute: typeof SalesTargetVsAchievedRoute
   SetupAuditLogsRoute: typeof SetupAuditLogsRoute
+  SetupGlobalConfigRoute: typeof SetupGlobalConfigRoute
+  SetupModuleAssetsRoute: typeof SetupModuleAssetsRoute
+  SetupModuleFinanceRoute: typeof SetupModuleFinanceRoute
+  SetupModuleHrRoute: typeof SetupModuleHrRoute
+  SetupModuleHrmsRoute: typeof SetupModuleHrmsRoute
+  SetupModuleInventoryRoute: typeof SetupModuleInventoryRoute
+  SetupModuleOperationsRoute: typeof SetupModuleOperationsRoute
+  SetupModuleSalesRoute: typeof SetupModuleSalesRoute
+  SetupModuleSoftServicesRoute: typeof SetupModuleSoftServicesRoute
+  SetupModuleTicketsRoute: typeof SetupModuleTicketsRoute
+  SetupModuleToolboxTrainingRoute: typeof SetupModuleToolboxTrainingRoute
   SetupModulesPermissionsRoute: typeof SetupModulesPermissionsRoute
   SetupOrganizationStructureRoute: typeof SetupOrganizationStructureRoute
   SetupSecurityRoute: typeof SetupSecurityRoute
@@ -268,6 +412,83 @@ declare module '@tanstack/react-router' {
       path: '/setup/modules-permissions'
       fullPath: '/setup/modules-permissions'
       preLoaderRoute: typeof SetupModulesPermissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-toolbox-training': {
+      id: '/setup/module-toolbox-training'
+      path: '/setup/module-toolbox-training'
+      fullPath: '/setup/module-toolbox-training'
+      preLoaderRoute: typeof SetupModuleToolboxTrainingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-tickets': {
+      id: '/setup/module-tickets'
+      path: '/setup/module-tickets'
+      fullPath: '/setup/module-tickets'
+      preLoaderRoute: typeof SetupModuleTicketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-soft-services': {
+      id: '/setup/module-soft-services'
+      path: '/setup/module-soft-services'
+      fullPath: '/setup/module-soft-services'
+      preLoaderRoute: typeof SetupModuleSoftServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-sales': {
+      id: '/setup/module-sales'
+      path: '/setup/module-sales'
+      fullPath: '/setup/module-sales'
+      preLoaderRoute: typeof SetupModuleSalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-operations': {
+      id: '/setup/module-operations'
+      path: '/setup/module-operations'
+      fullPath: '/setup/module-operations'
+      preLoaderRoute: typeof SetupModuleOperationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-inventory': {
+      id: '/setup/module-inventory'
+      path: '/setup/module-inventory'
+      fullPath: '/setup/module-inventory'
+      preLoaderRoute: typeof SetupModuleInventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-hrms': {
+      id: '/setup/module-hrms'
+      path: '/setup/module-hrms'
+      fullPath: '/setup/module-hrms'
+      preLoaderRoute: typeof SetupModuleHrmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-hr': {
+      id: '/setup/module-hr'
+      path: '/setup/module-hr'
+      fullPath: '/setup/module-hr'
+      preLoaderRoute: typeof SetupModuleHrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-finance': {
+      id: '/setup/module-finance'
+      path: '/setup/module-finance'
+      fullPath: '/setup/module-finance'
+      preLoaderRoute: typeof SetupModuleFinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/module-assets': {
+      id: '/setup/module-assets'
+      path: '/setup/module-assets'
+      fullPath: '/setup/module-assets'
+      preLoaderRoute: typeof SetupModuleAssetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup/global-config': {
+      id: '/setup/global-config'
+      path: '/setup/global-config'
+      fullPath: '/setup/global-config'
+      preLoaderRoute: typeof SetupGlobalConfigRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/setup/audit-logs': {
@@ -347,6 +568,17 @@ const rootRouteChildren: RootRouteChildren = {
   SalesLeadRoute: SalesLeadRoute,
   SalesTargetVsAchievedRoute: SalesTargetVsAchievedRoute,
   SetupAuditLogsRoute: SetupAuditLogsRoute,
+  SetupGlobalConfigRoute: SetupGlobalConfigRoute,
+  SetupModuleAssetsRoute: SetupModuleAssetsRoute,
+  SetupModuleFinanceRoute: SetupModuleFinanceRoute,
+  SetupModuleHrRoute: SetupModuleHrRoute,
+  SetupModuleHrmsRoute: SetupModuleHrmsRoute,
+  SetupModuleInventoryRoute: SetupModuleInventoryRoute,
+  SetupModuleOperationsRoute: SetupModuleOperationsRoute,
+  SetupModuleSalesRoute: SetupModuleSalesRoute,
+  SetupModuleSoftServicesRoute: SetupModuleSoftServicesRoute,
+  SetupModuleTicketsRoute: SetupModuleTicketsRoute,
+  SetupModuleToolboxTrainingRoute: SetupModuleToolboxTrainingRoute,
   SetupModulesPermissionsRoute: SetupModulesPermissionsRoute,
   SetupOrganizationStructureRoute: SetupOrganizationStructureRoute,
   SetupSecurityRoute: SetupSecurityRoute,
