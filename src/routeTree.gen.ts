@@ -19,6 +19,7 @@ import { Route as SetupAuditLogsRouteImport } from './routes/setup.audit-logs'
 import { Route as SalesTargetVsAchievedRouteImport } from './routes/sales.target-vs-achieved'
 import { Route as SalesLeadRouteImport } from './routes/sales.lead'
 import { Route as SalesClientLossRouteImport } from './routes/sales.client-loss'
+import { Route as OperationsFieldSenseRouteImport } from './routes/operations.field-sense'
 import { Route as HrHrmsRouteImport } from './routes/hr.hrms'
 import { Route as FinanceExpensesRouteImport } from './routes/finance.expenses'
 import { Route as FinanceClientOnboardingRouteImport } from './routes/finance.client-onboarding'
@@ -76,6 +77,11 @@ const SalesClientLossRoute = SalesClientLossRouteImport.update({
   path: '/sales/client-loss',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OperationsFieldSenseRoute = OperationsFieldSenseRouteImport.update({
+  id: '/operations/field-sense',
+  path: '/operations/field-sense',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HrHrmsRoute = HrHrmsRouteImport.update({
   id: '/hr/hrms',
   path: '/hr/hrms',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
   '/hr/hrms': typeof HrHrmsRoute
+  '/operations/field-sense': typeof OperationsFieldSenseRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
   '/hr/hrms': typeof HrHrmsRoute
+  '/operations/field-sense': typeof OperationsFieldSenseRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -144,6 +152,7 @@ export interface FileRoutesById {
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
   '/hr/hrms': typeof HrHrmsRoute
+  '/operations/field-sense': typeof OperationsFieldSenseRoute
   '/sales/client-loss': typeof SalesClientLossRoute
   '/sales/lead': typeof SalesLeadRoute
   '/sales/target-vs-achieved': typeof SalesTargetVsAchievedRoute
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/finance/client-onboarding'
     | '/finance/expenses'
     | '/hr/hrms'
+    | '/operations/field-sense'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
     | '/finance/client-onboarding'
     | '/finance/expenses'
     | '/hr/hrms'
+    | '/operations/field-sense'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -197,6 +208,7 @@ export interface FileRouteTypes {
     | '/finance/client-onboarding'
     | '/finance/expenses'
     | '/hr/hrms'
+    | '/operations/field-sense'
     | '/sales/client-loss'
     | '/sales/lead'
     | '/sales/target-vs-achieved'
@@ -215,6 +227,7 @@ export interface RootRouteChildren {
   FinanceClientOnboardingRoute: typeof FinanceClientOnboardingRoute
   FinanceExpensesRoute: typeof FinanceExpensesRoute
   HrHrmsRoute: typeof HrHrmsRoute
+  OperationsFieldSenseRoute: typeof OperationsFieldSenseRoute
   SalesClientLossRoute: typeof SalesClientLossRoute
   SalesLeadRoute: typeof SalesLeadRoute
   SalesTargetVsAchievedRoute: typeof SalesTargetVsAchievedRoute
@@ -298,6 +311,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SalesClientLossRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/operations/field-sense': {
+      id: '/operations/field-sense'
+      path: '/operations/field-sense'
+      fullPath: '/operations/field-sense'
+      preLoaderRoute: typeof OperationsFieldSenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hr/hrms': {
       id: '/hr/hrms'
       path: '/hr/hrms'
@@ -343,6 +363,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceClientOnboardingRoute: FinanceClientOnboardingRoute,
   FinanceExpensesRoute: FinanceExpensesRoute,
   HrHrmsRoute: HrHrmsRoute,
+  OperationsFieldSenseRoute: OperationsFieldSenseRoute,
   SalesClientLossRoute: SalesClientLossRoute,
   SalesLeadRoute: SalesLeadRoute,
   SalesTargetVsAchievedRoute: SalesTargetVsAchievedRoute,
