@@ -397,50 +397,9 @@ function NavGroup({
         >
           <div className="min-h-0">
             <ul className="ml-[26px] mt-0.5 space-y-0.5 border-l border-sidebar-border pl-3">
-              {group.items?.map((item) => {
-                const active = isActive(item.to);
-                const inner = (
-                  <div
-                    className={cn(
-                      "relative flex h-9 items-center rounded-md px-2.5 text-[13px] transition-colors",
-                      active
-                        ? "font-semibold text-foreground"
-                        : "text-muted-foreground hover:text-foreground",
-                    )}
-                    style={
-                      active
-                        ? { backgroundColor: "var(--primary-soft)" }
-                        : undefined
-                    }
-                    onMouseEnter={(e) => {
-                      if (!active)
-                        (e.currentTarget as HTMLDivElement).style.backgroundColor =
-                          "var(--primary-tint)";
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!active)
-                        (e.currentTarget as HTMLDivElement).style.backgroundColor =
-                          "";
-                    }}
-                  >
-                    {active && (
-                      <span className="absolute -left-[13px] top-1.5 bottom-1.5 w-[2px] rounded-r bg-primary" />
-                    )}
-                    <span className="truncate">{item.label}</span>
-                  </div>
-                );
-                return (
-                  <li key={item.label}>
-                    {item.to ? (
-                      <Link to={item.to}>{inner}</Link>
-                    ) : (
-                      <button type="button" className="block w-full text-left">
-                        {inner}
-                      </button>
-                    )}
-                  </li>
-                );
-              })}
+              {group.items?.map((item) => (
+                <NavSubItem key={item.label} item={item} isActive={isActive} />
+              ))}
             </ul>
           </div>
         </div>
