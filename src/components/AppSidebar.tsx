@@ -57,7 +57,7 @@ const businessModules: Group[] = [
       { label: "Audit" },
       { label: "Assets" },
       { label: "Inventory" },
-      { label: "Field Sense" },
+      { label: "Field Sense", to: "/operations/field-sense" },
       { label: "Tickets" },
       { label: "Toolbox Training" },
     ],
