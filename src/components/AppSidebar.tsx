@@ -408,15 +408,12 @@ function NavGroup({
   );
 }
 
-function NavSubItem({
-  item,
-  isActive,
-  depth = 0,
-}: {
+function NavSubItem(props: {
   item: Item;
   isActive: (to?: string) => boolean;
   depth?: number;
 }) {
+  const { item, isActive, depth = 0 } = props;
   const hasChildren = !!item.children?.length;
   const childActive = item.children?.some((c) => isActive(c.to)) ?? false;
   const [open, setOpen] = useState(childActive);
