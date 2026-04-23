@@ -82,20 +82,20 @@ const setup: Group = {
     { label: "Security & Access", to: "/setup/security" },
     { label: "Modules & Permissions", to: "/setup/modules-permissions" },
     { label: "Workflows & Approvals", to: "/setup/workflows" },
-    { label: "Global Configuration", to: "/setup/global-config" },
+    { label: "Global Configuration" },
     {
       label: "Module Settings",
       children: [
-        { label: "Sales", to: "/setup/module-sales" },
-        { label: "Finance", to: "/setup/module-finance" },
-        { label: "HR", to: "/setup/module-hr" },
-        { label: "Operations", to: "/setup/module-operations" },
-        { label: "Soft Services", to: "/setup/module-soft-services" },
-        { label: "Assets", to: "/setup/module-assets" },
-        { label: "Inventory", to: "/setup/module-inventory" },
-        { label: "Tickets", to: "/setup/module-tickets" },
-        { label: "Toolbox Training", to: "/setup/module-toolbox-training" },
-        { label: "HRMS", to: "/setup/module-hrms" },
+        { label: "Sales" },
+        { label: "Finance" },
+        { label: "HR" },
+        { label: "Operations" },
+        { label: "Soft Services" },
+        { label: "Assets" },
+        { label: "Inventory" },
+        { label: "Tickets" },
+        { label: "Toolbox Training" },
+        { label: "HRMS" },
       ],
     },
     { label: "Audit Logs", to: "/setup/audit-logs" },
@@ -408,12 +408,15 @@ function NavGroup({
   );
 }
 
-function NavSubItem(props: {
+function NavSubItem({
+  item,
+  isActive,
+  depth = 0,
+}: {
   item: Item;
   isActive: (to?: string) => boolean;
   depth?: number;
 }) {
-  const { item, isActive, depth = 0 } = props;
   const hasChildren = !!item.children?.length;
   const childActive = item.children?.some((c) => isActive(c.to)) ?? false;
   const [open, setOpen] = useState(childActive);
