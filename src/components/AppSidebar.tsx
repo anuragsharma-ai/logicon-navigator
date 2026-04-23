@@ -206,7 +206,7 @@ export function AppSidebar({ collapsed, onToggle }: SidebarProps) {
 
           {/* Divider + Setup */}
           <div className="my-4 border-t border-sidebar-border" />
-          {!collapsed && <SectionLabel>Setup</SectionLabel>}
+          {!collapsed && <SectionLabel>Admin Portal</SectionLabel>}
           <div className="mt-1">
             <NavGroup
               group={setup}
