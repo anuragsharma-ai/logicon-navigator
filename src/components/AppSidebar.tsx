@@ -407,3 +407,84 @@ function NavGroup({
     </div>
   );
 }
+
+function NavSubItem({
+  item,
+  isActive,
+  depth = 0,
+}: {
+  item: Item;
+  isActive: (to?: string) => boolean;
+  depth?: number;
+}) {
+  const hasChildren = !!item.children?.length;
+  const childActive = item.children?.some((c) => isActive(c.to)) ?? false;
+  const [open, setOpen] = useState(childActive);
+  const active = isActive(item.to);
+
+  if (hasChildren) {
+    return (
+      <li>
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className={cn(
+            "flex h-9 w-full items-center gap-1 rounded-md px-2.5 text-[13px] transition-colors",
+            childActive ? "font-semibold text-foreground" : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          <span className="flex-1 truncate text-left">{item.label}</span>
+          <ChevronDown
+            size={12}
+            className={cn("shrink-0 text-muted-foreground transition-transform", open && "rotate-180")}
+          />
+        </button>
+        <div
+          className={cn(
+            "grid overflow-hidden transition-[grid-template-rows] duration-200 ease-out",
+            open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          )}
+        >
+          <div className="min-h-0">
+            <ul className="ml-3 mt-0.5 space-y-0.5 border-l border-sidebar-border pl-2.5">
+              {item.children?.map((c) => (
+                <NavSubItem key={c.label} item={c} isActive={isActive} depth={depth + 1} />
+              ))}
+            </ul>
+          </div>
+        </div>
+      </li>
+    );
+  }
+
+  const inner = (
+    <div
+      className={cn(
+        "relative flex h-9 items-center rounded-md px-2.5 text-[13px] transition-colors",
+        active ? "font-semibold text-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+      style={active ? { backgroundColor: "var(--primary-soft)" } : undefined}
+      onMouseEnter={(e) => {
+        if (!active) (e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--primary-tint)";
+      }}
+      onMouseLeave={(e) => {
+        if (!active) (e.currentTarget as HTMLDivElement).style.backgroundColor = "";
+      }}
+    >
+      {active && (
+        <span className="absolute -left-[13px] top-1.5 bottom-1.5 w-[2px] rounded-r bg-primary" />
+      )}
+      <span className="truncate">{item.label}</span>
+    </div>
+  );
+
+  return (
+    <li>
+      {item.to ? (
+        <Link to={item.to}>{inner}</Link>
+      ) : (
+        <button type="button" className="block w-full text-left">{inner}</button>
+      )}
+    </li>
+  );
+}
