@@ -83,11 +83,11 @@ const setup: Group = {
     { label: "Modules & Permissions", to: "/setup/modules-permissions" },
     { label: "Workflows & Approvals", to: "/setup/workflows" },
     { label: "Global Configuration" },
-    {
-      label: "Module Settings",
-      children: [
-        { label: "Sales" },
-        { label: "Finance" },
+      {
+        label: "Module Settings",
+        children: [
+          { label: "Sales", to: "/setup/module-settings/sales" },
+          { label: "Finance" },
         { label: "HR" },
         { label: "Operations" },
         { label: "Soft Services" },
