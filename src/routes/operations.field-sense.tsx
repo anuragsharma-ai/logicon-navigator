@@ -255,6 +255,7 @@ function FieldSensePage() {
           {tab === "attendance" && <AttendanceView employees={employees} />}
           {tab === "tracking" && <TrackingView employees={employees} />}
           {tab === "reports" && <ReportsView employees={employees} tasks={tasks} />}
+          {tab === "settings" && <SettingsView />}
           {tab === "mobile" && <MobileAppPreview tasks={tasks} onMove={moveTask} />}
         </div>
       </div>
