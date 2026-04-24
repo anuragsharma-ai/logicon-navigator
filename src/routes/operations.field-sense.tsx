@@ -147,7 +147,7 @@ function priorityTone(p: Task["priority"]) {
 
 /* ----------------------------- Page ----------------------------- */
 
-type TabKey = "dashboard" | "employees" | "tasks" | "attendance" | "tracking" | "reports" | "mobile";
+type TabKey = "dashboard" | "employees" | "tasks" | "attendance" | "tracking" | "reports" | "settings" | "mobile";
 
 const TABS: { key: TabKey; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }[] = [
   { key: "dashboard", label: "Dashboard", icon: BarChart3 },
@@ -156,6 +156,7 @@ const TABS: { key: TabKey; label: string; icon: React.ComponentType<{ size?: num
   { key: "attendance", label: "Attendance", icon: Clock },
   { key: "tracking", label: "Live Tracking", icon: Navigation },
   { key: "reports", label: "Reports", icon: Activity },
+  { key: "settings", label: "Settings", icon: SettingsIcon },
   { key: "mobile", label: "Employee App", icon: Phone },
 ];
 
