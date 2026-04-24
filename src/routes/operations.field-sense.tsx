@@ -1400,22 +1400,22 @@ function SettingsView() {
             <h3 className="text-[15px] font-semibold text-foreground">General</h3>
             <p className="text-[12px] text-muted-foreground">Organization-level defaults for FieldSense.</p>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <SettingField label="Organization Name">
+              <Field label="Organization Name">
                 <input defaultValue="Logicon Industries Pvt. Ltd." className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
-              </SettingField>
-              <SettingField label="Default Timezone">
+              </Field>
+              <Field label="Default Timezone">
                 <select className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]">
                   <option>Asia/Kolkata (IST)</option>
                   <option>Asia/Dubai</option>
                   <option>UTC</option>
                 </select>
-              </SettingField>
-              <SettingField label="Working Days">
+              </Field>
+              <Field label="Working Days">
                 <input defaultValue="Mon, Tue, Wed, Thu, Fri, Sat" className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
-              </SettingField>
-              <SettingField label="Shift Hours">
+              </Field>
+              <Field label="Shift Hours">
                 <input defaultValue="09:00 — 18:00" className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
-              </SettingField>
+              </Field>
             </div>
           </Card>
         )}
@@ -1487,29 +1487,29 @@ function SettingsView() {
             <h3 className="text-[15px] font-semibold text-foreground">Geofence & Live Tracking</h3>
             <p className="text-[12px] text-muted-foreground">Controls how location data is captured and validated.</p>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <SettingField label="Check-in geofence radius">
+              <Field label="Check-in geofence radius">
                 <div className="flex items-center gap-2">
                   <input type="number" defaultValue={150} className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
                   <span className="text-[12px] text-muted-foreground">meters</span>
                 </div>
-              </SettingField>
-              <SettingField label="Location ping interval">
+              </Field>
+              <Field label="Location ping interval">
                 <select className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]">
                   <option>30 seconds</option>
                   <option>1 minute</option>
                   <option>5 minutes</option>
                 </select>
-              </SettingField>
-              <SettingField label="Idle threshold">
+              </Field>
+              <Field label="Idle threshold">
                 <input defaultValue="20 minutes" className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
-              </SettingField>
-              <SettingField label="Battery saver mode">
+              </Field>
+              <Field label="Battery saver mode">
                 <select className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]">
                   <option>Auto (below 20%)</option>
                   <option>Always on</option>
                   <option>Off</option>
                 </select>
-              </SettingField>
+              </Field>
             </div>
             <div className="mt-4 space-y-3 border-t border-border pt-4">
               <ToggleRow label="Enforce geofence on check-in" hint="Block check-ins outside the radius" defaultOn />
