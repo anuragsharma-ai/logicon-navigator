@@ -31,6 +31,8 @@ import {
   Radio,
   RefreshCw,
   Search,
+  Settings as SettingsIcon,
+  Shield,
   Signal,
   User as UserIcon,
   Users,
