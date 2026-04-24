@@ -25,6 +25,7 @@ import { Route as FinanceExpensesRouteImport } from './routes/finance.expenses'
 import { Route as FinanceClientOnboardingRouteImport } from './routes/finance.client-onboarding'
 import { Route as FinanceClientBillingRouteImport } from './routes/finance.client-billing'
 import { Route as FinanceBudgetRouteImport } from './routes/finance.budget'
+import { Route as SetupModuleSettingsSalesRouteImport } from './routes/setup.module-settings.sales'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -107,6 +108,12 @@ const FinanceBudgetRoute = FinanceBudgetRouteImport.update({
   path: '/finance/budget',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SetupModuleSettingsSalesRoute =
+  SetupModuleSettingsSalesRouteImport.update({
+    id: '/setup/module-settings/sales',
+    path: '/setup/module-settings/sales',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/setup/security': typeof SetupSecurityRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
+  '/setup/module-settings/sales': typeof SetupModuleSettingsSalesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -143,6 +151,7 @@ export interface FileRoutesByTo {
   '/setup/security': typeof SetupSecurityRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
+  '/setup/module-settings/sales': typeof SetupModuleSettingsSalesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -162,6 +171,7 @@ export interface FileRoutesById {
   '/setup/security': typeof SetupSecurityRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
+  '/setup/module-settings/sales': typeof SetupModuleSettingsSalesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
     | '/setup/security'
     | '/setup/users-roles'
     | '/setup/workflows'
+    | '/setup/module-settings/sales'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/setup/security'
     | '/setup/users-roles'
     | '/setup/workflows'
+    | '/setup/module-settings/sales'
   id:
     | '__root__'
     | '/'
@@ -218,6 +230,7 @@ export interface FileRouteTypes {
     | '/setup/security'
     | '/setup/users-roles'
     | '/setup/workflows'
+    | '/setup/module-settings/sales'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -237,6 +250,7 @@ export interface RootRouteChildren {
   SetupSecurityRoute: typeof SetupSecurityRoute
   SetupUsersRolesRoute: typeof SetupUsersRolesRoute
   SetupWorkflowsRoute: typeof SetupWorkflowsRoute
+  SetupModuleSettingsSalesRoute: typeof SetupModuleSettingsSalesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -353,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceBudgetRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/setup/module-settings/sales': {
+      id: '/setup/module-settings/sales'
+      path: '/setup/module-settings/sales'
+      fullPath: '/setup/module-settings/sales'
+      preLoaderRoute: typeof SetupModuleSettingsSalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -373,6 +394,7 @@ const rootRouteChildren: RootRouteChildren = {
   SetupSecurityRoute: SetupSecurityRoute,
   SetupUsersRolesRoute: SetupUsersRolesRoute,
   SetupWorkflowsRoute: SetupWorkflowsRoute,
+  SetupModuleSettingsSalesRoute: SetupModuleSettingsSalesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
