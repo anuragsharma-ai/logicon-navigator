@@ -1350,3 +1350,267 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     </label>
   );
 }
+
+/* ----------------------------- Settings View ----------------------------- */
+
+function SettingsView() {
+  const sections: { key: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }[] = [
+    { key: "general", label: "General", icon: SettingsIcon },
+    { key: "policies", label: "Policies", icon: Shield },
+    { key: "roles", label: "Roles & Permissions", icon: Users },
+    { key: "geofence", label: "Geofence & Tracking", icon: MapPin },
+    { key: "notifications", label: "Notifications", icon: BellRing },
+    { key: "integrations", label: "Integrations", icon: Zap },
+  ];
+  const [active, setActive] = useState<string>("general");
+
+  return (
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[260px_1fr]">
+      {/* Side nav */}
+      <Card className="h-fit p-2">
+        <ul className="flex flex-col gap-0.5">
+          {sections.map((s) => {
+            const Icon = s.icon;
+            const isActive = active === s.key;
+            return (
+              <li key={s.key}>
+                <button
+                  type="button"
+                  onClick={() => setActive(s.key)}
+                  className={cn(
+                    "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-[13px] font-medium transition-colors",
+                    isActive
+                      ? "bg-blue-50 text-blue-700 ring-1 ring-blue-200"
+                      : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                  )}
+                >
+                  <Icon size={14} />
+                  {s.label}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </Card>
+
+      {/* Panel */}
+      <div className="space-y-4">
+        {active === "general" && (
+          <Card className="p-5">
+            <h3 className="text-[15px] font-semibold text-foreground">General</h3>
+            <p className="text-[12px] text-muted-foreground">Organization-level defaults for FieldSense.</p>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <SettingField label="Organization Name">
+                <input defaultValue="Logicon Industries Pvt. Ltd." className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
+              </SettingField>
+              <SettingField label="Default Timezone">
+                <select className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]">
+                  <option>Asia/Kolkata (IST)</option>
+                  <option>Asia/Dubai</option>
+                  <option>UTC</option>
+                </select>
+              </SettingField>
+              <SettingField label="Working Days">
+                <input defaultValue="Mon, Tue, Wed, Thu, Fri, Sat" className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
+              </SettingField>
+              <SettingField label="Shift Hours">
+                <input defaultValue="09:00 — 18:00" className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
+              </SettingField>
+            </div>
+          </Card>
+        )}
+
+        {active === "policies" && (
+          <Card className="p-5">
+            <h3 className="text-[15px] font-semibold text-foreground">Attendance & Task Policies</h3>
+            <p className="text-[12px] text-muted-foreground">These rules drive auto-detection across modules.</p>
+            <div className="mt-4 space-y-3">
+              <ToggleRow label="Mark late check-in after grace period" hint="Grace: 15 min after shift start" defaultOn />
+              <ToggleRow label="Require photo proof on task completion" hint="Applied to all field tasks" defaultOn />
+              <ToggleRow label="Auto-flag overdue tasks" hint="Trigger 30 min after deadline" defaultOn />
+              <ToggleRow label="Allow offline mode (sync later)" hint="Mobile app caches actions" defaultOn />
+              <ToggleRow label="Idle detection" hint="No movement for 20+ min during shift" />
+            </div>
+          </Card>
+        )}
+
+        {active === "roles" && (
+          <Card className="p-0 overflow-hidden">
+            <div className="flex items-center justify-between border-b border-border px-5 py-4">
+              <div>
+                <h3 className="text-[15px] font-semibold text-foreground">Roles & Permissions</h3>
+                <p className="text-[12px] text-muted-foreground">Who can do what across FieldSense.</p>
+              </div>
+              <button className="inline-flex h-8 items-center gap-1.5 rounded-md bg-blue-600 px-3 text-[12px] font-medium text-white hover:bg-blue-700">
+                <Plus size={12} /> Add Role
+              </button>
+            </div>
+            <table className="w-full text-[13px]">
+              <thead className="bg-slate-50 text-[12px] text-muted-foreground">
+                <tr>
+                  <th className="px-5 py-2.5 text-left font-medium">Role</th>
+                  <th className="px-3 py-2.5 text-left font-medium">Tasks</th>
+                  <th className="px-3 py-2.5 text-left font-medium">Attendance</th>
+                  <th className="px-3 py-2.5 text-left font-medium">Tracking</th>
+                  <th className="px-3 py-2.5 text-left font-medium">Reports</th>
+                  <th className="px-5 py-2.5 text-left font-medium">Settings</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {[
+                  { role: "Admin", perms: ["Full", "Full", "Full", "Full", "Full"] },
+                  { role: "Manager", perms: ["Assign/View", "View Team", "View Team", "View", "—"] },
+                  { role: "Supervisor", perms: ["Assign", "Approve", "View Team", "View", "—"] },
+                  { role: "Employee", perms: ["Self only", "Self only", "Self only", "—", "—"] },
+                ].map((r) => (
+                  <tr key={r.role}>
+                    <td className="px-5 py-3 font-medium text-foreground">{r.role}</td>
+                    {r.perms.map((p, i) => (
+                      <td key={i} className={cn("px-3 py-3", i === r.perms.length - 1 && "px-5")}>
+                        <span className={cn(
+                          "inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium",
+                          p === "Full" ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200"
+                            : p === "—" ? "bg-slate-100 text-slate-500 ring-1 ring-slate-200"
+                            : "bg-blue-50 text-blue-700 ring-1 ring-blue-200",
+                        )}>{p}</span>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Card>
+        )}
+
+        {active === "geofence" && (
+          <Card className="p-5">
+            <h3 className="text-[15px] font-semibold text-foreground">Geofence & Live Tracking</h3>
+            <p className="text-[12px] text-muted-foreground">Controls how location data is captured and validated.</p>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <SettingField label="Check-in geofence radius">
+                <div className="flex items-center gap-2">
+                  <input type="number" defaultValue={150} className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
+                  <span className="text-[12px] text-muted-foreground">meters</span>
+                </div>
+              </SettingField>
+              <SettingField label="Location ping interval">
+                <select className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]">
+                  <option>30 seconds</option>
+                  <option>1 minute</option>
+                  <option>5 minutes</option>
+                </select>
+              </SettingField>
+              <SettingField label="Idle threshold">
+                <input defaultValue="20 minutes" className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]" />
+              </SettingField>
+              <SettingField label="Battery saver mode">
+                <select className="h-9 w-full rounded-md border border-border bg-background px-3 text-[13px]">
+                  <option>Auto (below 20%)</option>
+                  <option>Always on</option>
+                  <option>Off</option>
+                </select>
+              </SettingField>
+            </div>
+            <div className="mt-4 space-y-3 border-t border-border pt-4">
+              <ToggleRow label="Enforce geofence on check-in" hint="Block check-ins outside the radius" defaultOn />
+              <ToggleRow label="Background tracking during shift" defaultOn />
+              <ToggleRow label="Store route history (90 days)" defaultOn />
+            </div>
+          </Card>
+        )}
+
+        {active === "notifications" && (
+          <Card className="p-5">
+            <h3 className="text-[15px] font-semibold text-foreground">Notifications</h3>
+            <p className="text-[12px] text-muted-foreground">Channel preferences for admin and field alerts.</p>
+            <div className="mt-4 grid grid-cols-[1fr_auto_auto_auto] items-center gap-x-6 gap-y-3 text-[13px]">
+              <div className="text-[12px] font-medium text-muted-foreground">Event</div>
+              <div className="text-[12px] font-medium text-muted-foreground">Push</div>
+              <div className="text-[12px] font-medium text-muted-foreground">Email</div>
+              <div className="text-[12px] font-medium text-muted-foreground">SMS</div>
+              {[
+                { e: "New task assigned", v: [true, true, false] },
+                { e: "Task completed", v: [true, false, false] },
+                { e: "Late check-in", v: [true, true, true] },
+                { e: "Overdue task", v: [true, true, false] },
+                { e: "Geofence exit", v: [true, false, true] },
+              ].map((row) => (
+                <RowGroup key={row.e} label={row.e} values={row.v} />
+              ))}
+            </div>
+          </Card>
+        )}
+
+        {active === "integrations" && (
+          <Card className="p-5">
+            <h3 className="text-[15px] font-semibold text-foreground">Integrations</h3>
+            <p className="text-[12px] text-muted-foreground">Connect FieldSense data with other Logicon modules.</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {[
+                { name: "HRMS — Attendance sync", status: "Connected" },
+                { name: "Payroll — Hours export", status: "Connected" },
+                { name: "Sales — Visit logs", status: "Connected" },
+                { name: "Tickets — Field jobs", status: "Not connected" },
+              ].map((i) => (
+                <div key={i.name} className="flex items-center justify-between rounded-lg border border-border p-3">
+                  <div>
+                    <div className="text-[13px] font-medium text-foreground">{i.name}</div>
+                    <div className="text-[11px] text-muted-foreground">{i.status}</div>
+                  </div>
+                  <button className={cn(
+                    "h-8 rounded-md px-3 text-[12px] font-medium",
+                    i.status === "Connected"
+                      ? "border border-border bg-background text-foreground hover:bg-accent"
+                      : "bg-blue-600 text-white hover:bg-blue-700",
+                  )}>{i.status === "Connected" ? "Manage" : "Connect"}</button>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+
+        <div className="flex justify-end gap-2">
+          <button className="h-9 rounded-md border border-border bg-background px-4 text-[13px] font-medium hover:bg-accent">Cancel</button>
+          <button className="h-9 rounded-md bg-blue-600 px-4 text-[13px] font-medium text-white hover:bg-blue-700">Save changes</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ToggleRow({ label, hint, defaultOn }: { label: string; hint?: string; defaultOn?: boolean }) {
+  const [on, setOn] = useState(!!defaultOn);
+  return (
+    <div className="flex items-center justify-between rounded-lg border border-border p-3">
+      <div>
+        <div className="text-[13px] font-medium text-foreground">{label}</div>
+        {hint && <div className="text-[11px] text-muted-foreground">{hint}</div>}
+      </div>
+      <button
+        type="button"
+        onClick={() => setOn((v) => !v)}
+        className={cn(
+          "relative h-5 w-9 rounded-full transition-colors",
+          on ? "bg-blue-600" : "bg-slate-300",
+        )}
+        aria-pressed={on}
+      >
+        <span className={cn(
+          "absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-all",
+          on ? "left-[18px]" : "left-0.5",
+        )} />
+      </button>
+    </div>
+  );
+}
+
+function RowGroup({ label, values }: { label: string; values: boolean[] }) {
+  return (
+    <>
+      <div className="text-[13px] text-foreground">{label}</div>
+      {values.map((v, i) => (
+        <input key={i} type="checkbox" defaultChecked={v} className="h-4 w-4 justify-self-center rounded border-border accent-blue-600" />
+      ))}
+    </>
+  );
+}
