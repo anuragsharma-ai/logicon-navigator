@@ -21,6 +21,7 @@ import { Route as SalesLeadRouteImport } from './routes/sales.lead'
 import { Route as SalesClientLossRouteImport } from './routes/sales.client-loss'
 import { Route as OperationsFieldSenseRouteImport } from './routes/operations.field-sense'
 import { Route as HrHrmsRouteImport } from './routes/hr.hrms'
+import { Route as HrAtsRouteImport } from './routes/hr.ats'
 import { Route as FinanceExpensesRouteImport } from './routes/finance.expenses'
 import { Route as FinanceClientOnboardingRouteImport } from './routes/finance.client-onboarding'
 import { Route as FinanceClientBillingRouteImport } from './routes/finance.client-billing'
@@ -88,6 +89,11 @@ const HrHrmsRoute = HrHrmsRouteImport.update({
   path: '/hr/hrms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HrAtsRoute = HrAtsRouteImport.update({
+  id: '/hr/ats',
+  path: '/hr/ats',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceExpensesRoute = FinanceExpensesRouteImport.update({
   id: '/finance/expenses',
   path: '/finance/expenses',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/finance/client-billing': typeof FinanceClientBillingRoute
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
+  '/hr/ats': typeof HrAtsRoute
   '/hr/hrms': typeof HrHrmsRoute
   '/operations/field-sense': typeof OperationsFieldSenseRoute
   '/sales/client-loss': typeof SalesClientLossRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/finance/client-billing': typeof FinanceClientBillingRoute
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
+  '/hr/ats': typeof HrAtsRoute
   '/hr/hrms': typeof HrHrmsRoute
   '/operations/field-sense': typeof OperationsFieldSenseRoute
   '/sales/client-loss': typeof SalesClientLossRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/finance/client-billing': typeof FinanceClientBillingRoute
   '/finance/client-onboarding': typeof FinanceClientOnboardingRoute
   '/finance/expenses': typeof FinanceExpensesRoute
+  '/hr/ats': typeof HrAtsRoute
   '/hr/hrms': typeof HrHrmsRoute
   '/operations/field-sense': typeof OperationsFieldSenseRoute
   '/sales/client-loss': typeof SalesClientLossRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/finance/client-billing'
     | '/finance/client-onboarding'
     | '/finance/expenses'
+    | '/hr/ats'
     | '/hr/hrms'
     | '/operations/field-sense'
     | '/sales/client-loss'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/finance/client-billing'
     | '/finance/client-onboarding'
     | '/finance/expenses'
+    | '/hr/ats'
     | '/hr/hrms'
     | '/operations/field-sense'
     | '/sales/client-loss'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/finance/client-billing'
     | '/finance/client-onboarding'
     | '/finance/expenses'
+    | '/hr/ats'
     | '/hr/hrms'
     | '/operations/field-sense'
     | '/sales/client-loss'
@@ -239,6 +251,7 @@ export interface RootRouteChildren {
   FinanceClientBillingRoute: typeof FinanceClientBillingRoute
   FinanceClientOnboardingRoute: typeof FinanceClientOnboardingRoute
   FinanceExpensesRoute: typeof FinanceExpensesRoute
+  HrAtsRoute: typeof HrAtsRoute
   HrHrmsRoute: typeof HrHrmsRoute
   OperationsFieldSenseRoute: typeof OperationsFieldSenseRoute
   SalesClientLossRoute: typeof SalesClientLossRoute
@@ -339,6 +352,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HrHrmsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hr/ats': {
+      id: '/hr/ats'
+      path: '/hr/ats'
+      fullPath: '/hr/ats'
+      preLoaderRoute: typeof HrAtsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/expenses': {
       id: '/finance/expenses'
       path: '/finance/expenses'
@@ -383,6 +403,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceClientBillingRoute: FinanceClientBillingRoute,
   FinanceClientOnboardingRoute: FinanceClientOnboardingRoute,
   FinanceExpensesRoute: FinanceExpensesRoute,
+  HrAtsRoute: HrAtsRoute,
   HrHrmsRoute: HrHrmsRoute,
   OperationsFieldSenseRoute: OperationsFieldSenseRoute,
   SalesClientLossRoute: SalesClientLossRoute,
@@ -399,12 +420,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
