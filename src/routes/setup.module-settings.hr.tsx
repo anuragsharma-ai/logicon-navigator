@@ -522,7 +522,7 @@ function QrHiring() {
 }
 
 function CandidateForm() {
-  const fields = ["Full Name", "Mobile", "Email", "City", "Experience", "Expected CTC", "Resume Upload", "Aadhaar"];
+  const fields = ["Full Name", "Mobile Number", "Email Address", "City", "Experience", "Qualification", "Skills", "Preferred Location", "Current Company", "Languages Known", "Resume Upload"];
   return (
     <Card title="Candidate Form Setup" desc="Choose fields shown to candidates on QR / public forms.">
       <div className="grid gap-2 sm:grid-cols-2">
