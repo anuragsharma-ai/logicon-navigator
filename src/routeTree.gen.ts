@@ -27,6 +27,7 @@ import { Route as FinanceClientOnboardingRouteImport } from './routes/finance.cl
 import { Route as FinanceClientBillingRouteImport } from './routes/finance.client-billing'
 import { Route as FinanceBudgetRouteImport } from './routes/finance.budget'
 import { Route as SetupModuleSettingsSalesRouteImport } from './routes/setup.module-settings.sales'
+import { Route as SetupModuleSettingsHrRouteImport } from './routes/setup.module-settings.hr'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -120,6 +121,11 @@ const SetupModuleSettingsSalesRoute =
     path: '/setup/module-settings/sales',
     getParentRoute: () => rootRouteImport,
   } as any)
+const SetupModuleSettingsHrRoute = SetupModuleSettingsHrRouteImport.update({
+  id: '/setup/module-settings/hr',
+  path: '/setup/module-settings/hr',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/setup/security': typeof SetupSecurityRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
+  '/setup/module-settings/hr': typeof SetupModuleSettingsHrRoute
   '/setup/module-settings/sales': typeof SetupModuleSettingsSalesRoute
 }
 export interface FileRoutesByTo {
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/setup/security': typeof SetupSecurityRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
+  '/setup/module-settings/hr': typeof SetupModuleSettingsHrRoute
   '/setup/module-settings/sales': typeof SetupModuleSettingsSalesRoute
 }
 export interface FileRoutesById {
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/setup/security': typeof SetupSecurityRoute
   '/setup/users-roles': typeof SetupUsersRolesRoute
   '/setup/workflows': typeof SetupWorkflowsRoute
+  '/setup/module-settings/hr': typeof SetupModuleSettingsHrRoute
   '/setup/module-settings/sales': typeof SetupModuleSettingsSalesRoute
 }
 export interface FileRouteTypes {
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/setup/security'
     | '/setup/users-roles'
     | '/setup/workflows'
+    | '/setup/module-settings/hr'
     | '/setup/module-settings/sales'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/setup/security'
     | '/setup/users-roles'
     | '/setup/workflows'
+    | '/setup/module-settings/hr'
     | '/setup/module-settings/sales'
   id:
     | '__root__'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/setup/security'
     | '/setup/users-roles'
     | '/setup/workflows'
+    | '/setup/module-settings/hr'
     | '/setup/module-settings/sales'
   fileRoutesById: FileRoutesById
 }
@@ -263,6 +275,7 @@ export interface RootRouteChildren {
   SetupSecurityRoute: typeof SetupSecurityRoute
   SetupUsersRolesRoute: typeof SetupUsersRolesRoute
   SetupWorkflowsRoute: typeof SetupWorkflowsRoute
+  SetupModuleSettingsHrRoute: typeof SetupModuleSettingsHrRoute
   SetupModuleSettingsSalesRoute: typeof SetupModuleSettingsSalesRoute
 }
 
@@ -394,6 +407,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupModuleSettingsSalesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/setup/module-settings/hr': {
+      id: '/setup/module-settings/hr'
+      path: '/setup/module-settings/hr'
+      fullPath: '/setup/module-settings/hr'
+      preLoaderRoute: typeof SetupModuleSettingsHrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -415,6 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
   SetupSecurityRoute: SetupSecurityRoute,
   SetupUsersRolesRoute: SetupUsersRolesRoute,
   SetupWorkflowsRoute: SetupWorkflowsRoute,
+  SetupModuleSettingsHrRoute: SetupModuleSettingsHrRoute,
   SetupModuleSettingsSalesRoute: SetupModuleSettingsSalesRoute,
 }
 export const routeTree = rootRouteImport
