@@ -983,8 +983,8 @@ function EmployeeDetail({ emp }: { emp: Employee }) {
           <Grid2>
             <KV k="Mobile" v={emp.phone} />
             <KV k="Email" v={emp.email} />
-            <KV k="Aadhaar" v="XXXX XXXX 4421" />
-            <KV k="PAN" v="ABCDE1234F" />
+            <KV k="City" v="Mumbai" />
+            <KV k="Preferred Location" v={emp.site} />
             <KV k="Site" v={emp.site} />
             <KV k="Client" v={emp.client} />
             <KV k="Shift" v="Day · 9h" />
