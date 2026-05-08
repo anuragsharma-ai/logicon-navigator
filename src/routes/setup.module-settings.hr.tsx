@@ -482,16 +482,16 @@ function DuplicateDetection() {
     <Card title="Duplicate Detection" desc="Identify duplicates across critical fields.">
       <div className="grid gap-3 sm:grid-cols-2">
         <ToggleRow label="Mobile Number" defaultChecked />
-        <ToggleRow label="Email" defaultChecked />
-        <ToggleRow label="Aadhaar" defaultChecked />
-        <ToggleRow label="PAN" />
+        <ToggleRow label="Email Address" defaultChecked />
+        <ToggleRow label="Similar Name Detection" defaultChecked />
+        <ToggleRow label="Similar Resume Detection" defaultChecked />
       </div>
       <div className="mt-4">
         <Field label="Detection Mode">
           <Select defaultValue="warning">
             <option value="strict">Strict — block create</option>
             <option value="warning">Warning — flag &amp; allow</option>
-            <option value="override">Override Allowed</option>
+            <option value="override">Allow Override</option>
           </Select>
         </Field>
       </div>
@@ -522,7 +522,7 @@ function QrHiring() {
 }
 
 function CandidateForm() {
-  const fields = ["Full Name", "Mobile", "Email", "City", "Experience", "Expected CTC", "Resume Upload", "Aadhaar"];
+  const fields = ["Full Name", "Mobile Number", "Email Address", "City", "Experience", "Qualification", "Skills", "Preferred Location", "Current Company", "Languages Known", "Resume Upload"];
   return (
     <Card title="Candidate Form Setup" desc="Choose fields shown to candidates on QR / public forms.">
       <div className="grid gap-2 sm:grid-cols-2">
