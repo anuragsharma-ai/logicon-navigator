@@ -85,15 +85,8 @@ const setup: Group = {
     {
       label: "Module Settings",
       children: [
-        { label: "Sales", to: "/setup/module-settings/sales" },
         { label: "HR", to: "/setup/module-settings/hr" },
-        { label: "Finance" },
-        { label: "Operations" },
-        { label: "Soft Services" },
-        { label: "Assets" },
-        { label: "Inventory" },
-        { label: "Tickets" },
-        { label: "Toolbox Training" },
+        { label: "Field Sense", to: "/operations/field-sense" },
       ],
     },
     { label: "Audit Logs", to: "/setup/audit-logs" },
