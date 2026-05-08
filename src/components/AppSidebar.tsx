@@ -80,23 +80,20 @@ const setup: Group = {
   items: [
     { label: "Organization & Structure", to: "/setup/organization-structure" },
     { label: "Users & Roles", to: "/setup/users-roles" },
-    { label: "Security & Access", to: "/setup/security" },
     { label: "Modules & Permissions", to: "/setup/modules-permissions" },
     { label: "Workflows & Approvals", to: "/setup/workflows" },
-    { label: "Global Configuration" },
-      {
-        label: "Module Settings",
-        children: [
-          { label: "Sales", to: "/setup/module-settings/sales" },
-          { label: "Finance" },
-        { label: "HR" },
+    {
+      label: "Module Settings",
+      children: [
+        { label: "Sales", to: "/setup/module-settings/sales" },
+        { label: "HR", to: "/setup/module-settings/hr" },
+        { label: "Finance" },
         { label: "Operations" },
         { label: "Soft Services" },
         { label: "Assets" },
         { label: "Inventory" },
         { label: "Tickets" },
         { label: "Toolbox Training" },
-        { label: "HRMS" },
       ],
     },
     { label: "Audit Logs", to: "/setup/audit-logs" },
