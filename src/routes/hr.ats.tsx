@@ -998,7 +998,7 @@ function EmployeeDetail({ emp }: { emp: Employee }) {
         </TabsContent>
         <TabsContent value="docs" className="mt-4">
           <ul className="space-y-2 text-sm">
-            {["Aadhaar.pdf", "PAN.pdf", "Police Verification.pdf", "Offer Letter.pdf"].map((d) => (
+            {["Resume.pdf", "Cover Letter.pdf", "Experience Letter.pdf", "Offer Letter.pdf"].map((d) => (
               <li key={d} className="flex items-center justify-between rounded-lg border border-border/70 px-3 py-2">
                 <div className="flex items-center gap-2"><FileText className="h-4 w-4 text-muted-foreground" /> {d}</div>
                 <Button size="sm" variant="ghost" className="h-7">Download</Button>
