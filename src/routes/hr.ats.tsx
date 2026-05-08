@@ -246,17 +246,6 @@ function ATSPage() {
                 Clients, sites, MRFs, candidates, offers, deployment, billing & profitability — one connected workflow.
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                <Upload className="mr-1.5 h-4 w-4" /> Import
-              </Button>
-              <Button variant="outline" size="sm">
-                <Download className="mr-1.5 h-4 w-4" /> Export
-              </Button>
-              <Button size="sm">
-                <Plus className="mr-1.5 h-4 w-4" /> New MRF
-              </Button>
-            </div>
           </div>
 
           <Tabs value={tab} onValueChange={setTab} className="mt-4">
