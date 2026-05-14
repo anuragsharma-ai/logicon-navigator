@@ -247,13 +247,10 @@ function FieldSensePage() {
 
         <div className="mt-5">
           {tab === "dashboard" && <AdminDashboard kpis={kpis} employees={employees} tasks={tasks} />}
-          {tab === "employees" && <EmployeesView employees={employees} tasks={tasks} />}
-          {tab === "tasks" && <TasksView tasks={tasks} onMove={moveTask} />}
-          {tab === "attendance" && <AttendanceView employees={employees} />}
           {tab === "tracking" && <TrackingView employees={employees} />}
+          {tab === "attendance" && <AttendanceView employees={employees} />}
+          {tab === "geofence" && <GeoFenceAlertsView />}
           {tab === "reports" && <ReportsView employees={employees} tasks={tasks} />}
-          {tab === "settings" && <SettingsView />}
-          {tab === "mobile" && <MobileAppPreview tasks={tasks} onMove={moveTask} />}
         </div>
       </div>
 
