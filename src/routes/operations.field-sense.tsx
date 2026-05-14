@@ -147,17 +147,14 @@ function priorityTone(p: Task["priority"]) {
 
 /* ----------------------------- Page ----------------------------- */
 
-type TabKey = "dashboard" | "employees" | "tasks" | "attendance" | "tracking" | "reports" | "settings" | "mobile";
+type TabKey = "dashboard" | "tracking" | "attendance" | "geofence" | "reports";
 
 const TABS: { key: TabKey; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }[] = [
   { key: "dashboard", label: "Dashboard", icon: BarChart3 },
-  { key: "employees", label: "Employees", icon: Users },
-  { key: "tasks", label: "Tasks", icon: ListChecks },
-  { key: "attendance", label: "Attendance", icon: Clock },
-  { key: "tracking", label: "Live Tracking", icon: Navigation },
+  { key: "tracking", label: "Daily Tracking", icon: Navigation },
+  { key: "attendance", label: "Attendance Log", icon: Clock },
+  { key: "geofence", label: "Geo Fence Alerts", icon: AlertTriangle },
   { key: "reports", label: "Reports", icon: Activity },
-  { key: "settings", label: "Settings", icon: SettingsIcon },
-  { key: "mobile", label: "Employee App", icon: Phone },
 ];
 
 function FieldSensePage() {
