@@ -757,81 +757,632 @@ function AttendanceView({ employees }: { employees: Employee[] }) {
 
 /* ----------------------------- Live Tracking ----------------------------- */
 
-function TrackingView({ employees }: { employees: Employee[] }) {
-  const [selected, setSelected] = useState<Employee>(employees[0]);
+/* ----------------------------- Daily Tracking (Live + Route History) ----------------------------- */
+
+type TrackRow = {
+  id: string;
+  name: string;
+  initials: string;
+  empCode: string;
+  role: string;
+  department: string;
+  location: string;
+  checkIn: string;
+  checkOut: string;
+  travelKm: number;
+  idleMin: number;
+  planVsActual: number;
+  status: "Online" | "Idle" | "Offline";
+  workMode: "Field" | "Office" | "Hybrid";
+  lat: string;
+  lng: string;
+};
+
+const TRACK_ROWS: TrackRow[] = [
+  { id: "EMP001", name: "Ramesh Yadav", initials: "RY", empCode: "EMP001", role: "Field Sales Executive", department: "Agri Sales", location: "Krishi Mandi, Indore", checkIn: "07:30 AM", checkOut: "06:45 PM", travelKm: 28.5, idleMin: 12, planVsActual: 105, status: "Online", workMode: "Field", lat: "22.7196", lng: "75.8577" },
+  { id: "EMP002", name: "Suresh Patil", initials: "SP", empCode: "EMP002", role: "Territory Sales Manager", department: "Agri Sales", location: "Farmer Field Visit, Nashik", checkIn: "08:00 AM", checkOut: "07:10 PM", travelKm: 45.2, idleMin: 8, planVsActual: 112, status: "Online", workMode: "Field", lat: "19.9975", lng: "73.7898" },
+  { id: "EMP003", name: "Pooja Sharma", initials: "PS", empCode: "EMP003", role: "Agronomist", department: "Field Advisory", location: "Village Demo Plot, Jaipur", checkIn: "08:15 AM", checkOut: "06:30 PM", travelKm: 35.7, idleMin: 5, planVsActual: 98, status: "Online", workMode: "Field", lat: "26.9124", lng: "75.7873" },
+  { id: "EMP004", name: "Mahesh Reddy", initials: "MR", empCode: "EMP004", role: "Field Sales Executive", department: "Agri Sales", location: "Dealer Shop - Agri Solutions, Hyderabad", checkIn: "09:00 AM", checkOut: "—", travelKm: 18.3, idleMin: 42, planVsActual: 72, status: "Idle", workMode: "Field", lat: "17.3850", lng: "78.4867" },
+  { id: "EMP005", name: "Neha Gupta", initials: "NG", empCode: "EMP005", role: "Territory Sales Manager", department: "Agri Sales", location: "—", checkIn: "—", checkOut: "—", travelKm: 0, idleMin: 0, planVsActual: 0, status: "Offline", workMode: "Field", lat: "—", lng: "—" },
+];
+
+function TrackingView(_: { employees: Employee[] }) {
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<TrackRow | null>(null);
+
+  const rows = TRACK_ROWS.filter((r) =>
+    `${r.name} ${r.empCode} ${r.location}`.toLowerCase().includes(query.toLowerCase()),
+  );
+
+  const activeNow = TRACK_ROWS.filter((r) => r.status === "Online").length;
+  const totalKm = TRACK_ROWS.reduce((s, r) => s + r.travelKm, 0);
+  const avgPerf = Math.round(
+    TRACK_ROWS.filter((r) => r.planVsActual > 0).reduce((s, r) => s + r.planVsActual, 0) /
+      Math.max(1, TRACK_ROWS.filter((r) => r.planVsActual > 0).length),
+  );
+
   return (
-    <div className="grid gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
+    <div className="space-y-5">
+      <div>
+        <h2 className="text-[20px] font-semibold tracking-tight text-foreground">Live Tracking / Route History</h2>
+        <p className="text-[13px] text-muted-foreground">Real-time location monitoring and historical route data</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <KpiCard label="Active Now" value={`${activeNow}/${TRACK_ROWS.length}`} icon={UserIcon} tone="emerald" />
+        <KpiCard label="Avg Performance" value={`${avgPerf}%`} icon={Activity} tone="blue" />
+        <KpiCard label="Total Distance" value={`${totalKm.toFixed(1)} km`} icon={Navigation} tone="blue" />
+        <KpiCard label="Alerts Today" value={4} icon={AlertTriangle} tone="amber" />
+      </div>
+
       <Card className="overflow-hidden">
-        <div className="border-b border-border px-4 py-3 text-[14px] font-semibold text-foreground">On-field employees</div>
-        <ul className="max-h-[520px] overflow-y-auto">
-          {employees.map((e) => (
-            <li key={e.id}>
-              <button
-                onClick={() => setSelected(e)}
-                className={cn(
-                  "flex w-full items-center gap-3 border-b border-border px-4 py-2.5 text-left transition-colors",
-                  selected.id === e.id ? "bg-blue-50" : "hover:bg-slate-50",
-                )}
-              >
-                <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-[12px] font-semibold text-blue-700">
-                  {e.initials}
-                  <span className={cn("absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-white", e.status === "Active" ? "bg-emerald-500" : e.status === "Idle" ? "bg-amber-500" : e.status === "Offline" ? "bg-rose-500" : "bg-slate-400")} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-[13px] font-medium text-foreground">{e.name}</div>
-                  <div className="truncate text-[11px] text-muted-foreground">{e.location}</div>
-                </div>
-                <ChevronRight size={14} className="text-muted-foreground" />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </Card>
-      <Card className="overflow-hidden">
-        <div className="flex items-center justify-between border-b border-border px-4 py-3">
-          <div>
-            <div className="text-[14px] font-semibold text-foreground">{selected.name} — Route history</div>
-            <div className="text-[12px] text-muted-foreground">Today · Last update 2 min ago</div>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+          <div className="relative w-full max-w-sm">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search employees..."
+              className="h-9 w-full rounded-md border border-border bg-white pl-9 pr-3 text-[13px] outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-blue-100"
+            />
           </div>
-          <div className="flex items-center gap-2 text-[12px]">
-            <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 font-medium text-emerald-700 ring-1 ring-emerald-200">
-              <Radio size={12} /> Live
-            </span>
-            <span className="text-muted-foreground">Idle: 14 min</span>
+          <div className="flex items-center gap-2">
+            <button className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-white px-3 text-[12.5px] text-foreground hover:bg-accent">
+              <Filter size={13} /> Filters
+            </button>
+            <button className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-white px-3 text-[12.5px] text-foreground hover:bg-accent">
+              <Download size={13} /> Export
+            </button>
           </div>
         </div>
-        <RouteMap employee={selected} />
+        <div className="overflow-x-auto">
+          <table className="w-full text-[13px]">
+            <thead className="bg-slate-50 text-[12px] text-muted-foreground">
+              <tr>
+                <th className="px-4 py-2.5 text-left font-medium">Employee</th>
+                <th className="px-4 py-2.5 text-left font-medium">Current Location</th>
+                <th className="px-4 py-2.5 text-left font-medium">Check In</th>
+                <th className="px-4 py-2.5 text-left font-medium">Check Out</th>
+                <th className="px-4 py-2.5 text-left font-medium">Travel (km)</th>
+                <th className="px-4 py-2.5 text-left font-medium">Idle Time</th>
+                <th className="px-4 py-2.5 text-left font-medium">Plan vs Actual</th>
+                <th className="px-4 py-2.5 text-left font-medium">Status</th>
+                <th className="px-4 py-2.5 text-right font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {rows.map((r) => (
+                <tr key={r.id} className="hover:bg-slate-50">
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-[12px] font-semibold text-blue-700">
+                        {r.initials}
+                        <span className={cn(
+                          "absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-white",
+                          r.status === "Online" ? "bg-emerald-500" : r.status === "Idle" ? "bg-amber-500" : "bg-rose-500"
+                        )} />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-[13px] font-medium text-foreground">{r.name}</div>
+                        <div className="truncate text-[11.5px] text-muted-foreground">{r.empCode} · {r.role}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-foreground">
+                    <span className="inline-flex items-center gap-1.5"><MapPin size={12} className="text-blue-600" /> {r.location}</span>
+                  </td>
+                  <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 text-foreground"><Clock size={12} className="text-blue-600" /> {r.checkIn}</span></td>
+                  <td className="px-4 py-3 text-muted-foreground italic">{r.checkOut === "—" ? "Active" : r.checkOut}</td>
+                  <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 text-foreground"><Navigation size={12} className="text-blue-600" /> {r.travelKm} km</span></td>
+                  <td className={cn("px-4 py-3", r.idleMin >= 30 ? "text-rose-600" : r.idleMin >= 10 ? "text-amber-600" : "text-muted-foreground")}>{r.idleMin} min</td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <div className="h-2 w-24 overflow-hidden rounded-full bg-slate-200">
+                        <div
+                          className={cn(
+                            "h-full rounded-full",
+                            r.planVsActual >= 100 ? "bg-emerald-500" : r.planVsActual >= 80 ? "bg-amber-500" : "bg-rose-500",
+                          )}
+                          style={{ width: `${Math.min(100, r.planVsActual)}%` }}
+                        />
+                      </div>
+                      <span className={cn(
+                        "text-[12.5px] font-medium",
+                        r.planVsActual >= 100 ? "text-emerald-700" : r.planVsActual >= 80 ? "text-amber-700" : "text-rose-700",
+                      )}>{r.planVsActual}%</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-semibold",
+                      r.status === "Online" ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200" :
+                      r.status === "Idle" ? "bg-amber-50 text-amber-700 ring-1 ring-amber-200" :
+                      "bg-rose-50 text-rose-700 ring-1 ring-rose-200"
+                    )}>
+                      <span className={cn(
+                        "h-1.5 w-1.5 rounded-full",
+                        r.status === "Online" ? "bg-emerald-500" : r.status === "Idle" ? "bg-amber-500" : "bg-rose-500",
+                      )} />
+                      {r.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <button
+                      onClick={() => setSelected(r)}
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-blue-50 hover:text-blue-700"
+                      aria-label={`View ${r.name}`}
+                    >
+                      <Eye size={15} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </Card>
+
+      {selected && <TrackingDetailDrawer row={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }
 
-function RouteMap({ employee }: { employee: Employee }) {
+/* ----------------------------- Tracking Detail Drawer ----------------------------- */
+
+type DetailTask = {
+  name: string;
+  type: string;
+  location: string;
+  timeStart: string;
+  timeEnd: string;
+  distance: number;
+  fuelCost: number;
+  foodCost: number;
+  status: "Completed" | "In Progress" | "Pending";
+  proof: boolean;
+  notes: string;
+};
+
+const SAMPLE_TASKS: DetailTask[] = [
+  { name: "Dealer Visit - Krishi Seva Kendra", type: "Visit", location: "Krishi Seva Kendra, Indore", timeStart: "08:00 AM", timeEnd: "09:30 AM", distance: 12.5, fuelCost: 125, foodCost: 80, status: "Completed", proof: true, notes: "Delivered 50 bags DAP fertilizer" },
+  { name: "Farmer Demo - Hybrid Seeds", type: "Visit", location: "Village Plot, Dewas", timeStart: "10:00 AM", timeEnd: "11:30 AM", distance: 18.3, fuelCost: 183, foodCost: 120, status: "Completed", proof: true, notes: "Conducted demo for Namdhari hybrid maize" },
+  { name: "Lunch Break", type: "Break", location: "Krishi Dhaba, Rau", timeStart: "01:30 PM", timeEnd: "02:15 PM", distance: 0, fuelCost: 0, foodCost: 100, status: "Completed", proof: true, notes: "Pure veg lunch" },
+  { name: "Cooperative Society Meet", type: "Meeting", location: "Mandi Office, Dewas", timeStart: "02:45 PM", timeEnd: "04:00 PM", distance: 22.4, fuelCost: 224, foodCost: 70, status: "Completed", proof: true, notes: "Discussed Q3 procurement plan" },
+  { name: "Distributor Reconciliation", type: "Visit", location: "Agri Mart, Ujjain", timeStart: "04:30 PM", timeEnd: "05:30 PM", distance: 15.8, fuelCost: 158, foodCost: 0, status: "In Progress", proof: false, notes: "Pending invoice signatures" },
+  { name: "Soil Sample Pickup", type: "Visit", location: "Farmer Plot, Sanwer", timeStart: "06:00 PM", timeEnd: "—", distance: 0, fuelCost: 0, foodCost: 0, status: "Pending", proof: false, notes: "Scheduled" },
+  { name: "End of Day Report", type: "Report", location: "Office", timeStart: "07:00 PM", timeEnd: "—", distance: 0, fuelCost: 0, foodCost: 0, status: "Pending", proof: false, notes: "Submit daily call sheet" },
+];
+
+function TrackingDetailDrawer({ row, onClose }: { row: TrackRow; onClose: () => void }) {
+  const [taskQuery, setTaskQuery] = useState("");
+  const [taskStatus, setTaskStatus] = useState<"All" | DetailTask["status"]>("All");
+
+  const filteredTasks = SAMPLE_TASKS.filter((t) =>
+    (taskStatus === "All" || t.status === taskStatus) &&
+    t.name.toLowerCase().includes(taskQuery.toLowerCase()),
+  );
+
+  const totalFuel = SAMPLE_TASKS.reduce((s, t) => s + t.fuelCost, 0);
+  const totalFood = SAMPLE_TASKS.reduce((s, t) => s + t.foodCost, 0);
+  const completed = SAMPLE_TASKS.filter((t) => t.status === "Completed").length;
+
   return (
-    <div className="relative h-[420px] w-full bg-[linear-gradient(180deg,#eef4ff,#f7faff)]">
-      <svg className="absolute inset-0 h-full w-full opacity-60" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#dbe7ff" strokeWidth="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid2)" />
-      </svg>
-      <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 80 340 Q 200 200 360 240 T 720 160 T 940 220" fill="none" stroke="#2563eb" strokeWidth="3" strokeDasharray="6 6" strokeLinecap="round" />
-        <circle cx="80" cy="340" r="7" fill="#22c55e" stroke="white" strokeWidth="3" />
-        <circle cx="360" cy="240" r="5" fill="#fff" stroke="#2563eb" strokeWidth="2" />
-        <circle cx="720" cy="160" r="5" fill="#fff" stroke="#2563eb" strokeWidth="2" />
-        <circle cx="940" cy="220" r="8" fill="#ef4444" stroke="white" strokeWidth="3" />
-      </svg>
-      <div className="absolute left-3 top-3 rounded-lg bg-white p-2 text-[11px] shadow ring-1 ring-border">
-        <div className="font-semibold text-foreground">{employee.name}</div>
-        <div className="text-muted-foreground">Distance: 18.4 km · Stops: 4</div>
+    <div className="fixed inset-0 z-50 flex">
+      <button aria-label="Close" onClick={onClose} className="flex-1 bg-slate-900/30 backdrop-blur-sm" />
+      <div className="flex h-full w-full max-w-[980px] flex-col bg-white shadow-2xl">
+        {/* Header */}
+        <div className="flex items-center justify-between gap-3 border-b border-border bg-gradient-to-r from-blue-50 to-indigo-50 px-5 py-4">
+          <div className="flex items-center gap-3">
+            <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-blue-200 text-[14px] font-semibold text-blue-800">
+              {row.initials}
+              <span className={cn(
+                "absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full ring-2 ring-white",
+                row.status === "Online" ? "bg-emerald-500" : row.status === "Idle" ? "bg-amber-500" : "bg-rose-500",
+              )} />
+            </div>
+            <div>
+              <div className="text-[16px] font-semibold text-foreground">{row.name}</div>
+              <div className="flex items-center gap-2 text-[12px] text-muted-foreground">
+                <span>{row.role}</span>
+                <span>·</span>
+                <span className="inline-flex items-center gap-1"><Clock size={11} /> May 14, 2026</span>
+              </div>
+            </div>
+          </div>
+          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-white">
+            <X size={16} />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="flex-1 space-y-6 overflow-y-auto px-5 py-5">
+          {/* Employee Information */}
+          <section>
+            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Employee Information</div>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+              <InfoTile icon={UserIcon} label="Role" value={row.role} tone="blue" />
+              <InfoTile icon={Briefcase} label="Department" value={row.department} tone="slate" />
+              <InfoTile icon={Clock} label="Check-in" value={row.checkIn} tone="emerald" />
+              <InfoTile icon={Clock} label="Check-out" value={row.checkOut === "—" ? "Active" : row.checkOut} tone="amber" />
+              <InfoTile icon={Briefcase} label="Work Mode" value={row.workMode} tone="blue" />
+              <InfoTile icon={Activity} label="Status" value={row.status === "Online" ? "Active" : row.status} tone="emerald" />
+            </div>
+          </section>
+
+          {/* Route Replay */}
+          <section>
+            <div className="mb-2 flex items-center justify-between">
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Route Replay & Live Tracking</div>
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-700 ring-1 ring-slate-200">Ready</span>
+            </div>
+            <div className="rounded-xl border border-border bg-white p-3">
+              <div className="flex items-start justify-between rounded-lg border border-border bg-white p-3 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500 text-[12px] font-semibold text-white">1</div>
+                  <div>
+                    <div className="text-[13px] font-semibold text-foreground">Dealer Visit - Krishi Seva Kendra</div>
+                    <div className="mt-0.5 inline-flex items-center gap-1 text-[12px] text-muted-foreground"><MapPin size={11} className="text-blue-600" /> Krishi Seva Kendra, Indore</div>
+                    <div className="mt-1 flex items-center gap-3 text-[11.5px] text-muted-foreground">
+                      <span className="inline-flex items-center gap-1"><Clock size={11} /> 08:00 AM</span>
+                      <span className="inline-flex items-center gap-1"><Navigation size={11} /> 12.5 km</span>
+                      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10.5px] font-semibold text-emerald-700 ring-1 ring-emerald-200">Completed</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <button className="flex h-7 w-7 items-center justify-center rounded-md border border-border text-foreground hover:bg-accent">+</button>
+                  <button className="flex h-7 w-7 items-center justify-center rounded-md border border-border text-foreground hover:bg-accent">−</button>
+                </div>
+              </div>
+              <div className="relative mt-3 h-[260px] w-full overflow-hidden rounded-lg bg-[linear-gradient(180deg,#eef4ff,#f7faff)] ring-1 ring-border">
+                <svg className="absolute inset-0 h-full w-full opacity-60" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="rgrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#dbe7ff" strokeWidth="1" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#rgrid)" />
+                </svg>
+                <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M 80 220 Q 220 140 360 150 T 640 90" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6 6" strokeLinecap="round" />
+                  <circle cx="80" cy="220" r="13" fill="#3b82f6" stroke="white" strokeWidth="3" />
+                  <text x="80" y="225" textAnchor="middle" fontSize="11" fill="white" fontWeight="700">1</text>
+                  <circle cx="360" cy="150" r="11" fill="#cbd5e1" stroke="white" strokeWidth="2" />
+                  <text x="360" y="154" textAnchor="middle" fontSize="10" fill="#475569" fontWeight="700">2</text>
+                  <circle cx="540" cy="110" r="11" fill="#cbd5e1" stroke="white" strokeWidth="2" />
+                  <text x="540" y="114" textAnchor="middle" fontSize="10" fill="#475569" fontWeight="700">3</text>
+                </svg>
+                <div className="absolute bottom-3 left-3 flex items-center gap-3 rounded-lg bg-white px-3 py-1.5 text-[11px] shadow ring-1 ring-border">
+                  <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-500" />Visited</span>
+                  <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-slate-400" />Pending</span>
+                  <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-blue-500" />Current</span>
+                </div>
+              </div>
+
+              {/* Timeline */}
+              <div className="mt-3">
+                <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                  <span>08:00 AM</span>
+                  <span>12:00 PM</span>
+                  <span>05:30 PM</span>
+                </div>
+                <div className="relative mt-1 h-1.5 rounded-full bg-slate-200">
+                  <div className="absolute left-0 top-0 h-full w-[40%] rounded-full bg-blue-500" />
+                  <span className="absolute left-[18%] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-emerald-500 ring-2 ring-white" />
+                  <span className="absolute left-[40%] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-slate-400 ring-2 ring-white" />
+                  <span className="absolute left-[62%] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-slate-400 ring-2 ring-white" />
+                  <span className="absolute left-[82%] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-slate-400 ring-2 ring-white" />
+                </div>
+              </div>
+
+              {/* Player */}
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <button className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground hover:bg-accent"><RefreshCw size={14} /></button>
+                  <button className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground hover:bg-accent">‹</button>
+                  <button className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-md hover:bg-blue-700"><Play size={16} /></button>
+                  <button className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground hover:bg-accent">›</button>
+                </div>
+                <div className="flex items-center gap-2 text-[12px] text-muted-foreground">
+                  <span>Speed:</span>
+                  {(["1x", "2x", "4x"] as const).map((s, i) => (
+                    <button key={s} className={cn(
+                      "h-7 rounded-md border px-2.5 text-[11.5px] font-medium",
+                      i === 0 ? "border-blue-600 bg-blue-600 text-white" : "border-border bg-white text-foreground hover:bg-accent",
+                    )}>{s}</button>
+                  ))}
+                </div>
+                <div className="flex items-center gap-4 text-[12px]">
+                  <div><div className="text-muted-foreground">Stops</div><div className="font-semibold text-foreground">1/5</div></div>
+                  <div><div className="text-muted-foreground">Distance</div><div className="font-semibold text-foreground">12.5 km</div></div>
+                </div>
+              </div>
+
+              {/* GPS Pin */}
+              <div className="mt-3 flex items-center justify-between rounded-lg border border-border bg-white px-3 py-2.5">
+                <div className="flex items-start gap-2">
+                  <MapPin size={14} className="mt-0.5 text-blue-600" />
+                  <div>
+                    <div className="text-[13px] font-medium text-foreground">{row.location}</div>
+                    <div className="text-[11.5px] text-muted-foreground">Lat: {row.lat}, Lng: {row.lng}</div>
+                  </div>
+                </div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
+                  <Signal size={11} /> GPS Active
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* Tasks & Activities */}
+          <section>
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Tasks & Activities</div>
+              <div className="flex items-center gap-2">
+                <div className="relative">
+                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                  <input
+                    value={taskQuery}
+                    onChange={(e) => setTaskQuery(e.target.value)}
+                    placeholder="Search tasks..."
+                    className="h-8 w-48 rounded-md border border-border bg-white pl-8 pr-3 text-[12px] outline-none focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+                <select
+                  value={taskStatus}
+                  onChange={(e) => setTaskStatus(e.target.value as "All" | DetailTask["status"])}
+                  className="h-8 rounded-md border border-border bg-white px-2 text-[12px] outline-none focus:ring-2 focus:ring-blue-100"
+                >
+                  <option value="All">All Status</option>
+                  <option value="Completed">Completed</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+            </div>
+            <Card className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-[12.5px]">
+                  <thead className="bg-slate-50 text-[11.5px] text-muted-foreground">
+                    <tr>
+                      <th className="px-3 py-2 text-left font-medium">Task</th>
+                      <th className="px-3 py-2 text-left font-medium">Type</th>
+                      <th className="px-3 py-2 text-left font-medium">Time</th>
+                      <th className="px-3 py-2 text-left font-medium">Distance</th>
+                      <th className="px-3 py-2 text-left font-medium">Fuel Cost</th>
+                      <th className="px-3 py-2 text-left font-medium">Food Cost</th>
+                      <th className="px-3 py-2 text-left font-medium">Status</th>
+                      <th className="px-3 py-2 text-left font-medium">Proof</th>
+                      <th className="px-3 py-2 text-left font-medium">Notes</th>
+                      <th className="px-3 py-2 text-right font-medium">Act</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {filteredTasks.map((t, i) => (
+                      <tr key={i} className="hover:bg-slate-50">
+                        <td className="px-3 py-2.5">
+                          <div className="font-medium text-foreground">{t.name}</div>
+                          <div className="inline-flex items-center gap-1 text-[11px] text-muted-foreground"><MapPin size={10} className="text-blue-600" /> {t.location}</div>
+                        </td>
+                        <td className="px-3 py-2.5">
+                          <span className="inline-flex items-center gap-1 text-blue-700"><MapPin size={11} /> {t.type}</span>
+                        </td>
+                        <td className="px-3 py-2.5 text-muted-foreground">{t.timeStart}<br/>{t.timeEnd}</td>
+                        <td className="px-3 py-2.5"><span className="inline-flex items-center gap-1 text-foreground"><Navigation size={11} className="text-blue-600" /> {t.distance} km</span></td>
+                        <td className="px-3 py-2.5"><span className="inline-flex items-center gap-1 text-amber-700">⛽ ₹{t.fuelCost}</span></td>
+                        <td className="px-3 py-2.5"><span className="inline-flex items-center gap-1 text-rose-700">🍽 ₹{t.foodCost}</span></td>
+                        <td className="px-3 py-2.5">
+                          <span className={cn(
+                            "rounded-full px-2 py-0.5 text-[10.5px] font-semibold",
+                            t.status === "Completed" ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200" :
+                            t.status === "In Progress" ? "bg-amber-50 text-amber-700 ring-1 ring-amber-200" :
+                            "bg-slate-100 text-slate-700 ring-1 ring-slate-200",
+                          )}>{t.status}</span>
+                        </td>
+                        <td className="px-3 py-2.5">
+                          {t.proof ? (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10.5px] font-semibold text-emerald-700 ring-1 ring-emerald-200">📎 Yes</span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10.5px] font-semibold text-slate-600 ring-1 ring-slate-200">—</span>
+                          )}
+                        </td>
+                        <td className="px-3 py-2.5 max-w-[180px] truncate text-muted-foreground">{t.notes}</td>
+                        <td className="px-3 py-2.5 text-right">
+                          {t.status === "Completed" ? <CheckCircle2 size={15} className="ml-auto text-emerald-600" /> : <MoreHorizontal size={15} className="ml-auto text-muted-foreground" />}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </section>
+
+          {/* Travel & Performance */}
+          <section>
+            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Travel & Performance</div>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+              <PerfTile icon={Navigation} label="Total Distance (km)" value="69" tone="blue" />
+              <PerfTile icon={Clock} label="Idle Time (min)" value="18" tone="amber" />
+              <PerfTile icon={Activity} label="Plan vs Actual" value="105%" tone="emerald" progress={100} />
+              <PerfTile icon={CheckCircle2} label="Tasks Completed" value={`${completed}/${SAMPLE_TASKS.length}`} tone="indigo" />
+            </div>
+            <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-3">
+              <SmallStat label="Avg Task Duration" value="72 min" icon={Clock} />
+              <SmallStat label="Punctuality Score" value="98%" icon={CheckCircle2} />
+              <SmallStat label="Completion Rate" value="71%" icon={Activity} />
+            </div>
+          </section>
+
+          {/* Daily Expenses */}
+          <section>
+            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Daily Expenses</div>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+              <ExpenseTile label="Total Fuel Expense" sub={`@ ₹10/km for 69 km`} value={`₹${totalFuel}`} icon="⛽" tone="amber" />
+              <ExpenseTile label="Total Food Expense" sub="From 4 tasks" value={`₹${totalFood}`} icon="🍽" tone="indigo" />
+              <ExpenseTile label="Food Allowance" sub="Daily field allowance" value="₹350" icon="🍽" tone="emerald" />
+              <ExpenseTile label="Misc. Expenses" sub="Parking, tolls, etc." value="₹50" icon="₹" tone="slate" />
+              <ExpenseTile label="Total Day Expense" sub="All expenses combined" value={`₹${totalFuel + totalFood + 50}`} icon="💳" tone="blue" />
+            </div>
+
+            {/* Receipts */}
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              <div className="rounded-xl border border-amber-200 bg-amber-50/40 p-3">
+                <div className="flex items-center justify-between">
+                  <div className="inline-flex items-center gap-2 text-[13px] font-semibold text-foreground">
+                    <span className="text-amber-600">⛽</span> Fuel Receipts
+                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10.5px] font-semibold text-amber-800 ring-1 ring-amber-200">2 uploaded</span>
+                  </div>
+                  <span className="text-[13px] font-semibold text-amber-700">₹{totalFuel}</span>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  {[
+                    { vendor: "Indian Oil - Indore", time: "08:15 AM", amount: 525 },
+                    { vendor: "HP Petroleum - Dewas", time: "02:45 PM", amount: 170 },
+                  ].map((r) => (
+                    <div key={r.vendor} className="overflow-hidden rounded-lg border border-border bg-white">
+                      <div className="flex h-24 items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 text-[11px] text-muted-foreground">
+                        Receipt preview
+                      </div>
+                      <div className="flex items-center justify-between px-2.5 py-2">
+                        <div>
+                          <div className="text-[12px] font-medium text-foreground">{r.vendor}</div>
+                          <div className="text-[10.5px] text-muted-foreground">{r.time}</div>
+                        </div>
+                        <span className="text-[12px] font-semibold text-amber-700">₹{r.amount}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-blue-200 bg-blue-50/40 p-3">
+                <div className="flex items-center justify-between">
+                  <div className="inline-flex items-center gap-2 text-[13px] font-semibold text-foreground">
+                    <span className="text-blue-600">🍽</span> Food Receipts
+                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10.5px] font-semibold text-blue-800 ring-1 ring-blue-200">3 uploaded</span>
+                  </div>
+                  <span className="text-[13px] font-semibold text-blue-700">₹250</span>
+                </div>
+                <div className="mt-3 grid grid-cols-3 gap-3">
+                  {[
+                    { vendor: "Krishi Dhaba - Rau", time: "01:30 PM", amount: 100 },
+                    { vendor: "Mandi Canteen - Indore", time: "10:00 AM", amount: 70 },
+                    { vendor: "Ujjain Bhojnalaya", time: "04:15 PM", amount: 80 },
+                  ].map((r) => (
+                    <div key={r.vendor} className="overflow-hidden rounded-lg border border-border bg-white">
+                      <div className="flex h-20 items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 text-[10.5px] text-muted-foreground">
+                        Receipt
+                      </div>
+                      <div className="px-2 py-1.5">
+                        <div className="truncate text-[11.5px] font-medium text-foreground">{r.vendor}</div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] text-muted-foreground">{r.time}</span>
+                          <span className="text-[11px] font-semibold text-blue-700">₹{r.amount}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between border-t border-border bg-white px-5 py-3">
+          <div className="text-[12px] text-muted-foreground">{SAMPLE_TASKS.length} tasks displayed · Last updated: Just now</div>
+          <div className="flex items-center gap-2">
+            <button className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-white px-3 text-[13px] font-medium text-foreground hover:bg-accent">
+              <Download size={14} /> Export
+            </button>
+            <button onClick={onClose} className="inline-flex h-9 items-center gap-1.5 rounded-md bg-slate-900 px-4 text-[13px] font-medium text-white hover:bg-slate-800">
+              Close
+            </button>
+          </div>
+        </div>
       </div>
-      <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-lg bg-white px-2.5 py-1.5 text-[11px] shadow ring-1 ring-border">
-        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-500" />Start</span>
-        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-rose-500" />Current</span>
+    </div>
+  );
+}
+
+function InfoTile({ icon: Icon, label, value, tone }: { icon: React.ComponentType<{ size?: number; className?: string }>; label: string; value: string; tone: "blue" | "emerald" | "amber" | "slate" | "indigo" }) {
+  const tones: Record<string, string> = {
+    blue: "bg-blue-50 text-blue-700",
+    emerald: "bg-emerald-50 text-emerald-700",
+    amber: "bg-amber-50 text-amber-700",
+    slate: "bg-slate-100 text-slate-700",
+    indigo: "bg-indigo-50 text-indigo-700",
+  };
+  return (
+    <div className="rounded-lg border border-border bg-white p-3">
+      <div className="flex items-center gap-2">
+        <div className={cn("flex h-7 w-7 items-center justify-center rounded-md", tones[tone])}>
+          <Icon size={13} />
+        </div>
+        <div className="text-[10.5px] font-medium uppercase tracking-wide text-muted-foreground">{label}</div>
       </div>
+      <div className="mt-1.5 text-[13px] font-semibold text-foreground">{value}</div>
+    </div>
+  );
+}
+
+function PerfTile({ icon: Icon, label, value, tone, progress }: { icon: React.ComponentType<{ size?: number; className?: string }>; label: string; value: string; tone: "blue" | "amber" | "emerald" | "indigo"; progress?: number }) {
+  const bg: Record<string, string> = {
+    blue: "from-blue-50 to-blue-50/40 ring-blue-100",
+    amber: "from-amber-50 to-amber-50/40 ring-amber-100",
+    emerald: "from-emerald-50 to-emerald-50/40 ring-emerald-100",
+    indigo: "from-indigo-50 to-indigo-50/40 ring-indigo-100",
+  };
+  const ic: Record<string, string> = {
+    blue: "text-blue-600", amber: "text-amber-600", emerald: "text-emerald-600", indigo: "text-indigo-600",
+  };
+  return (
+    <div className={cn("rounded-xl bg-gradient-to-br p-3 ring-1", bg[tone])}>
+      <div className="flex items-center justify-between">
+        <Icon size={16} className={ic[tone]} />
+        <div className="text-[20px] font-semibold tracking-tight text-foreground">{value}</div>
+      </div>
+      <div className="mt-1 text-[12px] font-medium text-muted-foreground">{label}</div>
+      {typeof progress === "number" && (
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/70">
+          <div className={cn("h-full rounded-full", tone === "emerald" ? "bg-emerald-500" : "bg-blue-500")} style={{ width: `${progress}%` }} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SmallStat({ label, value, icon: Icon }: { label: string; value: string; icon: React.ComponentType<{ size?: number; className?: string }> }) {
+  return (
+    <div className="flex items-center justify-between rounded-lg border border-border bg-white p-3">
+      <div>
+        <div className="text-[11.5px] text-muted-foreground">{label}</div>
+        <div className="mt-0.5 text-[15px] font-semibold text-foreground">{value}</div>
+      </div>
+      <div className="flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground">
+        <Icon size={16} />
+      </div>
+    </div>
+  );
+}
+
+function ExpenseTile({ label, sub, value, icon, tone }: { label: string; sub: string; value: string; icon: string; tone: "amber" | "indigo" | "emerald" | "slate" | "blue" }) {
+  const map: Record<string, string> = {
+    amber: "from-amber-50 to-amber-50/40 ring-amber-200 text-amber-700",
+    indigo: "from-indigo-50 to-indigo-50/40 ring-indigo-200 text-indigo-700",
+    emerald: "from-emerald-50 to-emerald-50/40 ring-emerald-200 text-emerald-700",
+    slate: "from-slate-50 to-slate-50/40 ring-slate-200 text-slate-700",
+    blue: "from-blue-50 to-blue-50/40 ring-blue-200 text-blue-700",
+  };
+  return (
+    <div className={cn("rounded-xl bg-gradient-to-br p-3 ring-1", map[tone])}>
+      <div className="flex items-center justify-between">
+        <span className="text-[16px]">{icon}</span>
+        <span className="text-[16px] font-semibold tracking-tight text-foreground">{value}</span>
+      </div>
+      <div className="mt-1 text-[12px] font-medium text-foreground">{label}</div>
+      <div className="text-[10.5px] text-muted-foreground">{sub}</div>
     </div>
   );
 }
