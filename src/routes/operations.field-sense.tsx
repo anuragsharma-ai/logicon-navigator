@@ -147,17 +147,14 @@ function priorityTone(p: Task["priority"]) {
 
 /* ----------------------------- Page ----------------------------- */
 
-type TabKey = "dashboard" | "employees" | "tasks" | "attendance" | "tracking" | "reports" | "settings" | "mobile";
+type TabKey = "dashboard" | "tracking" | "attendance" | "geofence" | "reports";
 
 const TABS: { key: TabKey; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }[] = [
   { key: "dashboard", label: "Dashboard", icon: BarChart3 },
-  { key: "employees", label: "Employees", icon: Users },
-  { key: "tasks", label: "Tasks", icon: ListChecks },
-  { key: "attendance", label: "Attendance", icon: Clock },
-  { key: "tracking", label: "Live Tracking", icon: Navigation },
+  { key: "tracking", label: "Daily Tracking", icon: Navigation },
+  { key: "attendance", label: "Attendance Log", icon: Clock },
+  { key: "geofence", label: "Geo Fence Alerts", icon: AlertTriangle },
   { key: "reports", label: "Reports", icon: Activity },
-  { key: "settings", label: "Settings", icon: SettingsIcon },
-  { key: "mobile", label: "Employee App", icon: Phone },
 ];
 
 function FieldSensePage() {
@@ -250,13 +247,10 @@ function FieldSensePage() {
 
         <div className="mt-5">
           {tab === "dashboard" && <AdminDashboard kpis={kpis} employees={employees} tasks={tasks} />}
-          {tab === "employees" && <EmployeesView employees={employees} tasks={tasks} />}
-          {tab === "tasks" && <TasksView tasks={tasks} onMove={moveTask} />}
-          {tab === "attendance" && <AttendanceView employees={employees} />}
           {tab === "tracking" && <TrackingView employees={employees} />}
+          {tab === "attendance" && <AttendanceView employees={employees} />}
+          {tab === "geofence" && <GeoFenceAlertsView />}
           {tab === "reports" && <ReportsView employees={employees} tasks={tasks} />}
-          {tab === "settings" && <SettingsView />}
-          {tab === "mobile" && <MobileAppPreview tasks={tasks} onMove={moveTask} />}
         </div>
       </div>
 
@@ -1612,5 +1606,77 @@ function RowGroup({ label, values }: { label: string; values: boolean[] }) {
         <input key={i} type="checkbox" defaultChecked={v} className="h-4 w-4 justify-self-center rounded border-border accent-blue-600" />
       ))}
     </>
+  );
+}
+
+/* ----------------------------- Geo Fence Alerts ----------------------------- */
+
+const GEOFENCE_ALERTS = [
+  { id: "GF-9012", employee: "Arjun Patel", zone: "Banjara Hills Site", event: "Exit", time: "11:42 AM", location: "Banjara Hills, Hyd", tone: "amber" as const },
+  { id: "GF-9011", employee: "Vikram Shah", zone: "Andheri Warehouse", event: "Entry", time: "10:08 AM", location: "Andheri E, Mumbai", tone: "emerald" as const },
+  { id: "GF-9010", employee: "Sneha Iyer", zone: "T. Nagar Branch", event: "Out of Range", time: "09:55 AM", location: "T. Nagar, Chennai", tone: "rose" as const },
+  { id: "GF-9009", employee: "Rohan Mehta", zone: "Sector 18 Tower B", event: "Entry", time: "09:02 AM", location: "Sector 18, Noida", tone: "emerald" as const },
+  { id: "GF-9008", employee: "Aisha Khan", zone: "MG Road Plaza", event: "Exit", time: "08:51 AM", location: "MG Road, Gurugram", tone: "amber" as const },
+];
+
+function GeoFenceAlertsView() {
+  return (
+    <div className="space-y-5">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <KpiCard label="Total Alerts Today" value={GEOFENCE_ALERTS.length} icon={BellRing} tone="blue" />
+        <KpiCard label="Zone Exits" value={GEOFENCE_ALERTS.filter(a => a.event === "Exit").length} icon={LogOut} tone="amber" />
+        <KpiCard label="Zone Entries" value={GEOFENCE_ALERTS.filter(a => a.event === "Entry").length} icon={LogIn} tone="emerald" />
+        <KpiCard label="Out of Range" value={GEOFENCE_ALERTS.filter(a => a.event === "Out of Range").length} icon={AlertTriangle} tone="rose" />
+      </div>
+
+      <Card className="overflow-hidden">
+        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+          <div>
+            <div className="text-[14px] font-semibold text-foreground">Geo Fence Alerts</div>
+            <div className="text-[12px] text-muted-foreground">Real-time zone entry, exit and out-of-range events</div>
+          </div>
+          <button className="inline-flex h-8 items-center gap-1.5 rounded-md border border-border bg-white px-2.5 text-[12px] text-foreground hover:bg-accent">
+            <Filter size={12} /> Filters
+          </button>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[13px]">
+            <thead className="bg-slate-50 text-[12px] text-muted-foreground">
+              <tr>
+                <th className="px-4 py-2 text-left font-medium">Alert ID</th>
+                <th className="px-4 py-2 text-left font-medium">Employee</th>
+                <th className="px-4 py-2 text-left font-medium">Zone</th>
+                <th className="px-4 py-2 text-left font-medium">Event</th>
+                <th className="px-4 py-2 text-left font-medium">Location</th>
+                <th className="px-4 py-2 text-left font-medium">Time</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {GEOFENCE_ALERTS.map((a) => (
+                <tr key={a.id} className="hover:bg-slate-50">
+                  <td className="px-4 py-3 font-medium text-foreground">{a.id}</td>
+                  <td className="px-4 py-3 text-foreground">{a.employee}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{a.zone}</td>
+                  <td className="px-4 py-3">
+                    <span className={cn(
+                      "rounded-full px-2 py-0.5 text-[11px] font-semibold",
+                      a.tone === "emerald" ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200" :
+                      a.tone === "amber" ? "bg-amber-50 text-amber-700 ring-1 ring-amber-200" :
+                      "bg-rose-50 text-rose-700 ring-1 ring-rose-200"
+                    )}>
+                      {a.event}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    <span className="inline-flex items-center gap-1"><MapPin size={11} /> {a.location}</span>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">{a.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </div>
   );
 }
